@@ -1,0 +1,24 @@
+{
+  "template": "https://github.com/s-weigand/cookiecutter-pypackage",
+  "commit": "6a86bbe3f4692cf23dd616262788362c46685859",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Sebastian Weigand",
+      "email": "s.weigand.phy@gmail.com",
+      "github_username": "s-weigand",
+      "project_name": "openapi-diagram",
+      "project_slug": "openapi_diagram",
+      "project_slug_url": "openapi-diagram",
+      "project_short_description": "Generate diagrams from openapi specs",
+      "version": "0.0.1",
+      "command_line_interface": "typer",
+      "open_source_license": "Apache Software License",
+      "git_host_url": "https://github.com",
+      "install_pre_commit": "yes",
+      "_copy_without_render": ["docs/_templates/autosummary"],
+      "_template": "https://github.com/s-weigand/cookiecutter-pypackage"
+    }
+  },
+  "directory": null
+}

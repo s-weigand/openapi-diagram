@@ -1,0 +1,140 @@
+
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+  "hatchling",
+]
+
+[project]
+name = "openapi-diagram"
+description = "Generate diagrams from openapi specs"
+readme = "README.md"
+keywords = [
+  "openapi_diagram",
+]
+license = { file = "LICENSE" }
+authors = [
+  { name = "Sebastian Weigand", email = "s.weigand.phy@gmail.com" },
+]
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "typer>=0.9",
+]
+[project.optional-dependencies]
+dev = [
+  "openapi_diagram[docs,test]",
+]
+docs = [
+  "myst-parser>=2",
+  "numpydoc>=01.6",
+  "Sphinx>=7",
+  "sphinx-copybutton>=0.5.2",
+  "sphinx-last-updated-by-git>=0.3.6",
+  "sphinx-rtd-theme>=1.3",
+  "sphinxcontrib-jquery>=4.1", # Needed for the search to work Ref.: https://github.com/readthedocs/sphinx_rtd_theme/issues/1434
+]
+test = [
+  "coverage[toml]>=7.3.2",
+  "pluggy>=1.3",
+  "pytest>=7.4.3",
+  "pytest-cov>=4.1",
+]
+[project.urls]
+Changelog = "https://openapi-diagram.readthedocs.io/en/latest/changelog.html"
+Documentation = "https://openapi-diagram.readthedocs.io"
+Homepage = "https://github.com/s-weigand/openapi-diagram"
+Source = "https://github.com/s-weigand/openapi-diagram"
+Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
+[project.scripts]
+"openapi_diagram" = "openapi_diagram.cli:app"
+
+[tool.hatch.version]
+path = "openapi_diagram/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["/openapi_diagram","/tests"]
+
+[tool.hatch.envs.default]
+features = ["dev"]
+
+[tool.docformatter]
+black = true
+wrap-summaries = 99
+wrap-descriptions = 99
+
+[tool.pydoclint]
+skip-checking-short-docstrings = false
+style = 'numpy'
+exclude = '^(docs/|tests?/)'
+require-return-section-when-returning-nothing = false
+allow-init-docstring = true
+
+[tool.pytest.ini_options]
+addopts = [
+  "--cov=openapi_diagram",
+  "--cov-report=term",
+  "--cov-report=xml",
+  "--cov-report=html",
+  "--cov-config=pyproject.toml"
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+  'openapi_diagram/__init__.py',
+  'tests/*',
+  # comment the above line if you want to see if all tests did run
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+  # Have to re-enable the standard pragma
+  'pragma: no cover',
+
+  # Don't complain about missing debug-only code:
+  'def __repr__',
+  'if self\.debug',
+
+  # Don't complain if tests don't hit defensive assertion code:
+  'raise AssertionError',
+  'raise NotImplementedError',
+
+  # Don't complain if non-runnable code isn't run:
+  'if 0:',
+  'if __name__ == .__main__.:',
+  # only accessible during typechecking
+  'if TYPE_CHECKING:',
+]
+
+[tool.mypy]
+exclude = "^docs/"
+ignore_missing_imports = true
+scripts_are_modules = true
+show_error_codes = true
+warn_unused_configs = true
+warn_unused_ignores = true
+strict_equality = true
+
+
+# For now this is not used because pydoclint does not support toml when used with flake8
+
+[tool.interrogate]
+exclude = ["docs", "tests"]
+ignore-init-module = true
+fail-under = 100
