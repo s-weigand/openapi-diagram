@@ -60,12 +60,13 @@ ignore = [
   # Covered by formatter
   "ISC001",
 ]
+external = ["DOC"]
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [lint.per-file-ignores]
-"tests/*" = ["ARG001"]
+"tests/*" = ["ARG001", "D401", "D404"]
 
 [lint.isort]
 required-imports = ["from __future__ import annotations"]
