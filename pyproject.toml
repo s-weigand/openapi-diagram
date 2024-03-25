@@ -33,6 +33,11 @@ dynamic = [
   "version",
 ]
 dependencies = [
+  "beautifulsoup4[lxml]>=4",
+  "httpx>=0.27",
+  "platformdirs>=4",
+  "pydantic>=2",
+  "PyYAML>=6",
   "typer>=0.9",
 ]
 [project.optional-dependencies]
@@ -61,13 +66,13 @@ Homepage = "https://github.com/s-weigand/openapi-diagram"
 Source = "https://github.com/s-weigand/openapi-diagram"
 Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
 [project.scripts]
-"openapi_diagram" = "openapi_diagram.cli:app"
+"openapi-diagram" = "openapi_diagram.cli:app"
 
 [tool.hatch.version]
 path = "openapi_diagram/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = ["/openapi_diagram","/tests"]
+include = ["/openapi_diagram", "/tests"]
 
 [tool.hatch.envs.default]
 features = ["dev"]
@@ -90,7 +95,7 @@ addopts = [
   "--cov-report=term",
   "--cov-report=xml",
   "--cov-report=html",
-  "--cov-config=pyproject.toml"
+  "--cov-config=pyproject.toml",
 ]
 
 [tool.coverage.run]
