@@ -67,6 +67,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [lint.per-file-ignores]
 "tests/*" = ["ARG001", "D401", "D404"]
+"openapi_diagram/cli/commands/*" = ["FBT001"]
 
 [lint.isort]
 required-imports = ["from __future__ import annotations"]

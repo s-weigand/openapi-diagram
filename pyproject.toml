@@ -38,6 +38,7 @@ dependencies = [
   "platformdirs>=4",
   "pydantic>=2",
   "PyYAML>=6",
+  "rich>=13.7",
   "typer>=0.9",
 ]
 [project.optional-dependencies]
