@@ -92,13 +92,13 @@ def test_download_openapi_to_plantuml_use_cached(monkeypatch: pytest.MonkeyPatch
     "spec_file", ["petstore-3-0.json", "petstore-3-0.yaml", "petstore-3-1.yaml"]
 )
 def test_run_openapi_to_plantuml(tmp_path: Path, spec_file: str):
-    """Generated SVG files are equivalent for JSON and YAML as well 3.1 specs."""
+    """Generated PUML files are equivalent for JSON and YAML as well 3.1 specs."""
     openapi_spec = TEST_DATA / spec_file
-    output = tmp_path / "result.svg"
-    result = run_openapi_to_plantuml(openapi_spec, output, "single", "SVG")
+    output = tmp_path / "result.puml"
+    result = run_openapi_to_plantuml(openapi_spec, output, "single", "PUML")
     assert len(result) == 1
     assert result[0] == output
-    assert output.read_text().rstrip() == (TEST_DATA / "petstore.svg").read_text().rstrip()
+    assert output.read_text().rstrip() == (TEST_DATA / "petstore.puml").read_text().rstrip()
 
 
 def test_run_openapi_to_plantuml_split(tmp_path: Path):
@@ -119,7 +119,7 @@ def test_run_openapi_to_plantuml_output_format(
 ):
     """Test all format supported by `openapi-to-plantuml`."""
     openapi_spec = TEST_DATA / "petstore-3-0.json"
-    output = tmp_path / "result.svg"
+    output = tmp_path / "result"
     result = run_openapi_to_plantuml(openapi_spec, output, "single", output_format)
     assert len(result) == 1
     assert result[0] == output

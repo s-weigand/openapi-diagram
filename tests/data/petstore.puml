@@ -1,0 +1,383 @@
+@startuml
+hide <<Path>> circle
+hide <<Response>> circle
+hide <<Parameter>> circle
+hide empty methods
+hide empty fields
+skinparam class {
+BackgroundColor<<Path>> Wheat
+}
+set namespaceSeparator none
+
+class "Order" {
+  {field} id : integer {O}
+  {field} petId : integer {O}
+  {field} quantity : integer {O}
+  {field} shipDate : timestamp {O}
+  {field} status : string {O}
+  {field} complete : boolean {O}
+}
+
+class "Customer" {
+  {field} id : integer {O}
+  {field} username : string {O}
+}
+
+class "Address" {
+  {field} street : string {O}
+  {field} city : string {O}
+  {field} state : string {O}
+  {field} zip : string {O}
+}
+
+class "Category" {
+  {field} id : integer {O}
+  {field} name : string {O}
+}
+
+class "User" {
+  {field} id : integer {O}
+  {field} username : string {O}
+  {field} firstName : string {O}
+  {field} lastName : string {O}
+  {field} email : string {O}
+  {field} password : string {O}
+  {field} phone : string {O}
+  {field} userStatus : integer {O}
+}
+
+class "Tag" {
+  {field} id : integer {O}
+  {field} name : string {O}
+}
+
+class "Pet" {
+  {field} id : integer {O}
+  {field} name : string
+  {field} photoUrls : string[]
+  {field} status : string {O}
+}
+
+class "ApiResponse" {
+  {field} code : integer {O}
+  {field} type : string {O}
+  {field} message : string {O}
+}
+
+class "Pet.1" <<RequestBody>>  {
+}
+
+class "UserArray" <<RequestBody>>  {
+}
+
+class "updatePet" <<Path>>  <<PUT /pet>>  {
+}
+
+class "updatePet 400" <<Response>>  {
+}
+
+class "updatePet 404" <<Response>>  {
+}
+
+class "updatePet 422" <<Response>>  {
+}
+
+class "addPet" <<Path>>  <<POST /pet>>  {
+}
+
+class "addPet 400" <<Response>>  {
+}
+
+class "addPet 422" <<Response>>  {
+}
+
+class "findPetsByStatus" <<Path>>  <<GET /pet/findByStatus>>  {
+  {field} status : string {O}
+}
+
+class "findPetsByStatus 200" <<Response>>  {
+}
+
+class "findPetsByStatus 200 application/xml" <<Response>>  {
+}
+
+class "findPetsByStatus 400" <<Response>>  {
+}
+
+class "findPetsByTags" <<Path>>  <<GET /pet/findByTags>>  {
+  {field} tags : string[] {O}
+}
+
+class "findPetsByTags 200" <<Response>>  {
+}
+
+class "findPetsByTags 200 application/xml" <<Response>>  {
+}
+
+class "findPetsByTags 400" <<Response>>  {
+}
+
+class "getPetById" <<Path>>  <<GET /pet/{petId}>>  {
+  {field} petId : integer
+}
+
+class "getPetById 400" <<Response>>  {
+}
+
+class "getPetById 404" <<Response>>  {
+}
+
+class "updatePetWithForm" <<Path>>  <<POST /pet/{petId}>>  {
+  {field} petId : integer
+  {field} name : string {O}
+  {field} status : string {O}
+}
+
+class "updatePetWithForm 400" <<Response>>  {
+}
+
+class "deletePet" <<Path>>  <<DELETE /pet/{petId}>>  {
+  {field} api_key : string {O}
+  {field} petId : integer
+}
+
+class "deletePet 400" <<Response>>  {
+}
+
+class "uploadFile" <<Path>>  <<POST /pet/{petId}/uploadImage>>  {
+  {field} petId : integer
+  {field} additionalMetadata : string {O}
+}
+
+class "uploadFile Request" <<RequestBody>>  {
+  {field} value : byte[]
+}
+
+class "getInventory" <<Path>>  <<GET /store/inventory>>  {
+}
+
+class "getInventory 200" <<Response>>  {
+  {field} value : map
+}
+
+class "placeOrder" <<Path>>  <<POST /store/order>>  {
+}
+
+class "placeOrder 400" <<Response>>  {
+}
+
+class "placeOrder 422" <<Response>>  {
+}
+
+class "getOrderById" <<Path>>  <<GET /store/order/{orderId}>>  {
+  {field} orderId : integer
+}
+
+class "getOrderById 400" <<Response>>  {
+}
+
+class "getOrderById 404" <<Response>>  {
+}
+
+class "deleteOrder" <<Path>>  <<DELETE /store/order/{orderId}>>  {
+  {field} orderId : integer
+}
+
+class "deleteOrder 400" <<Response>>  {
+}
+
+class "deleteOrder 404" <<Response>>  {
+}
+
+class "createUser" <<Path>>  <<POST /user>>  {
+}
+
+class "createUsersWithListInput" <<Path>>  <<POST /user/createWithList>>  {
+}
+
+class "createUsersWithListInput default" <<Response>>  {
+}
+
+class "createUsersWithListInput Request" <<RequestBody>>  {
+}
+
+class "loginUser" <<Path>>  <<GET /user/login>>  {
+  {field} username : string {O}
+  {field} password : string {O}
+}
+
+class "loginUser 200 application/xml" <<Response>>  {
+  {field} value : string
+}
+
+class "loginUser 200" <<Response>>  {
+  {field} value : string
+}
+
+class "loginUser 400" <<Response>>  {
+}
+
+class "logoutUser" <<Path>>  <<GET /user/logout>>  {
+}
+
+class "logoutUser default" <<Response>>  {
+}
+
+class "getUserByName" <<Path>>  <<GET /user/{username}>>  {
+  {field} username : string
+}
+
+class "getUserByName 400" <<Response>>  {
+}
+
+class "getUserByName 404" <<Response>>  {
+}
+
+class "updateUser" <<Path>>  <<PUT /user/{username}>>  {
+  {field} username : string
+}
+
+class "updateUser default" <<Response>>  {
+}
+
+class "deleteUser" <<Path>>  <<DELETE /user/{username}>>  {
+  {field} username : string
+}
+
+class "deleteUser 400" <<Response>>  {
+}
+
+class "deleteUser 404" <<Response>>  {
+}
+
+"Customer" --> "*" "Address"  :  "address"
+
+"Pet" --> "0..1" "Category"
+
+"Pet" --> "*" "Tag"  :  "tags"
+
+"Pet.1" --> "1" "Pet"
+
+"UserArray" --> "*" "User"
+
+"updatePet" ..> "1" "Pet"  :  "200"
+
+"updatePet" ..> "1" "Pet"  :  "200 application/xml"
+
+"updatePet" ..> "1" "updatePet 400"  :  "400"
+
+"updatePet" ..> "1" "updatePet 404"  :  "404"
+
+"updatePet" ..> "1" "updatePet 422"  :  "422"
+
+"updatePet" --> "1" "Pet"
+
+"addPet" ..> "1" "Pet"  :  "200"
+
+"addPet" ..> "1" "Pet"  :  "200 application/xml"
+
+"addPet" ..> "1" "addPet 400"  :  "400"
+
+"addPet" ..> "1" "addPet 422"  :  "422"
+
+"addPet" --> "1" "Pet"
+
+"findPetsByStatus 200" --> "*" "Pet"
+
+"findPetsByStatus" ..> "1" "findPetsByStatus 200"  :  "200"
+
+"findPetsByStatus 200 application/xml" --> "*" "Pet"
+
+"findPetsByStatus" ..> "1" "findPetsByStatus 200 application/xml"  :  "200 application/xml"
+
+"findPetsByStatus" ..> "1" "findPetsByStatus 400"  :  "400"
+
+"findPetsByTags 200" --> "*" "Pet"
+
+"findPetsByTags" ..> "1" "findPetsByTags 200"  :  "200"
+
+"findPetsByTags 200 application/xml" --> "*" "Pet"
+
+"findPetsByTags" ..> "1" "findPetsByTags 200 application/xml"  :  "200 application/xml"
+
+"findPetsByTags" ..> "1" "findPetsByTags 400"  :  "400"
+
+"getPetById" ..> "1" "Pet"  :  "200"
+
+"getPetById" ..> "1" "Pet"  :  "200 application/xml"
+
+"getPetById" ..> "1" "getPetById 400"  :  "400"
+
+"getPetById" ..> "1" "getPetById 404"  :  "404"
+
+"updatePetWithForm" ..> "1" "updatePetWithForm 400"  :  "400"
+
+"deletePet" ..> "1" "deletePet 400"  :  "400"
+
+"uploadFile" ..> "1" "ApiResponse"  :  "200"
+
+"uploadFile" --> "1" "uploadFile Request"
+
+"getInventory" ..> "1" "getInventory 200"  :  "200"
+
+"placeOrder" ..> "1" "Order"  :  "200"
+
+"placeOrder" ..> "1" "placeOrder 400"  :  "400"
+
+"placeOrder" ..> "1" "placeOrder 422"  :  "422"
+
+"placeOrder" --> "1" "Order"
+
+"getOrderById" ..> "1" "Order"  :  "200"
+
+"getOrderById" ..> "1" "Order"  :  "200 application/xml"
+
+"getOrderById" ..> "1" "getOrderById 400"  :  "400"
+
+"getOrderById" ..> "1" "getOrderById 404"  :  "404"
+
+"deleteOrder" ..> "1" "deleteOrder 400"  :  "400"
+
+"deleteOrder" ..> "1" "deleteOrder 404"  :  "404"
+
+"createUser" ..> "1" "User"  :  "default"
+
+"createUser" ..> "1" "User"  :  "default application/xml"
+
+"createUser" --> "1" "User"
+
+"createUsersWithListInput" ..> "1" "User"  :  "200"
+
+"createUsersWithListInput" ..> "1" "User"  :  "200 application/xml"
+
+"createUsersWithListInput" ..> "1" "createUsersWithListInput default"  :  "default"
+
+"createUsersWithListInput Request" --> "*" "User"
+
+"createUsersWithListInput" --> "1" "createUsersWithListInput Request"
+
+"loginUser" ..> "1" "loginUser 200 application/xml"  :  "200 application/xml"
+
+"loginUser" ..> "1" "loginUser 200"  :  "200"
+
+"loginUser" ..> "1" "loginUser 400"  :  "400"
+
+"logoutUser" ..> "1" "logoutUser default"  :  "default"
+
+"getUserByName" ..> "1" "User"  :  "200"
+
+"getUserByName" ..> "1" "User"  :  "200 application/xml"
+
+"getUserByName" ..> "1" "getUserByName 400"  :  "400"
+
+"getUserByName" ..> "1" "getUserByName 404"  :  "404"
+
+"updateUser" ..> "1" "updateUser default"  :  "default"
+
+"updateUser" --> "1" "User"
+
+"deleteUser" ..> "1" "deleteUser 400"  :  "400"
+
+"deleteUser" ..> "1" "deleteUser 404"  :  "404"
+
+@enduml
