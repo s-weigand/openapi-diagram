@@ -28,7 +28,8 @@
         "tamasfe.even-better-toml",
         "esbenp.prettier-vscode",
         "oderwat.indent-rainbow",
-        "charliermarsh.ruff"
+        "charliermarsh.ruff",
+        "github.vscode-github-actions"
       ]
     }
   },
