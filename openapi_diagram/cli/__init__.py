@@ -7,7 +7,7 @@ import typer
 from openapi_diagram.cli.commands.cache import cache_app
 from openapi_diagram.cli.commands.create import create
 
-app = typer.Typer()
+app = typer.Typer(name="openapi-diagram", no_args_is_help=True)
 
 app.add_typer(cache_app, name="cache")
 

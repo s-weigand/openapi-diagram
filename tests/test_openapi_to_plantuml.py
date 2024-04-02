@@ -9,6 +9,8 @@ from unittest.mock import MagicMock
 import httpx
 import pytest
 
+from openapi_diagram import OPENAPI_TO_PLANTUML_DEFAULT_VERSION
+from openapi_diagram.openapi_to_plantuml import MissingDependecyWarning
 from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlFormats
 from openapi_diagram.openapi_to_plantuml import _get_latest_openapi_to_plantuml_version
 from openapi_diagram.openapi_to_plantuml import _get_openapi_to_plantuml_download_url
@@ -55,17 +57,20 @@ def test_get_openapi_to_plantuml_download_link(monkeypatch: pytest.MonkeyPatch):
     )
 
 
-def test_get_openapi_to_plantuml_path(mock_cache_dir: Path):
+def test_get_openapi_to_plantuml_path(empty_cache_dir: Path):
     """This mainly tests the mock."""
+    docstring = get_openapi_to_plantuml_path.__doc__
+    assert docstring is not None
+    assert OPENAPI_TO_PLANTUML_DEFAULT_VERSION in docstring
     jar_path = get_openapi_to_plantuml_path("0.0.0")
-    assert jar_path == mock_cache_dir / "openapi-to-plantuml-0.0.0.jar"
+    assert jar_path == empty_cache_dir / "openapi-to-plantuml-0.0.0.jar"
 
 
 @pytest.mark.skipif(
     RUN_SLOW_TEST,
     reason="Since this tests if the download works there is no need to check it in all CI runs.",
 )
-@pytest.mark.usefixtures("mock_cache_dir")
+@pytest.mark.usefixtures("empty_cache_dir")
 def test_download_openapi_to_plantuml():
     """Download creates the expected file."""
     jar_path = get_openapi_to_plantuml_path()
@@ -79,6 +84,9 @@ def test_download_openapi_to_plantuml():
 
 def test_download_openapi_to_plantuml_use_cached(monkeypatch: pytest.MonkeyPatch):
     """Download early exits and does not call actual download functionality."""
+    docstring = download_openapi_to_plantuml.__doc__
+    assert docstring is not None
+    assert OPENAPI_TO_PLANTUML_DEFAULT_VERSION in docstring
     with monkeypatch.context() as m:
         mock = MagicMock()
         m.setattr(httpx, "get", mock)
@@ -93,6 +101,9 @@ def test_download_openapi_to_plantuml_use_cached(monkeypatch: pytest.MonkeyPatch
 )
 def test_run_openapi_to_plantuml(tmp_path: Path, spec_file: str):
     """Generated PUML files are equivalent for JSON and YAML as well 3.1 specs."""
+    docstring = run_openapi_to_plantuml.__doc__
+    assert docstring is not None
+    assert OPENAPI_TO_PLANTUML_DEFAULT_VERSION in docstring
     openapi_spec = TEST_DATA / spec_file
     output = tmp_path / "result.puml"
     result = run_openapi_to_plantuml(openapi_spec, output, "single", "PUML")
@@ -127,7 +138,10 @@ def test_run_openapi_to_plantuml_output_format(
 
 @pytest.mark.usefixtures("_mock_empty_path")
 def test_run_openapi_to_plantuml_java_not_installed(tmp_path: Path):
-    """Riase Runtime error if java can not be found on the path."""
-    with pytest.raises(RuntimeError) as exceinfo:
+    """Raise Runtime error if java can not be found on the path."""
+    with pytest.raises(RuntimeError) as exceinfo, pytest.warns(
+        MissingDependecyWarning,
+        match="Graphviz installation not found, some output formats might not be available.",
+    ):
         run_openapi_to_plantuml(tmp_path, tmp_path, "single", "SVG")
     assert str(exceinfo.value) == "Can not run openapi-to-plantuml without java installed."

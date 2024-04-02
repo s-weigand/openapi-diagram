@@ -57,6 +57,7 @@ test = [
   "pluggy>=1.3",
   "pytest>=7.4.3",
   "pytest-cov>=4.1",
+  "pytest-env",
 ]
 [project.urls]
 Changelog = "https://openapi-diagram.readthedocs.io/en/latest/changelog.html"
@@ -95,6 +96,12 @@ addopts = [
   "--cov-report=xml",
   "--cov-report=html",
   "--cov-config=pyproject.toml",
+]
+env = [
+  # prevent line wrapping in tests
+  "TERMINAL_WIDTH=500",
+  "_TYPER_FORCE_DISABLE_TERMINAL=1",
+  "_TYPER_STANDARD_TRACEBACK=1",
 ]
 
 [tool.coverage.run]

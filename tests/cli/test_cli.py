@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-"""Tests for `openapi_diagram` package."""
+"""Tests for `openapi_diagram.cli` main app."""
 
 from __future__ import annotations
 
@@ -16,7 +14,9 @@ def test_command_line_interface():
     runner = CliRunner()
     result = runner.invoke(cli.app)
     assert result.exit_code == 0
-    assert "openapi_diagram.cli.main" in result.output
+    assert "openapi-diagram [OPTIONS] COMMAND [ARGS]..." in result.output
     help_result = runner.invoke(cli.app, ["--help"])
     assert help_result.exit_code == 0
-    assert re.search(r"--help\s+Show this message and exit.", help_result.output)
+    assert re.search(
+        r"--help\s+Show this message and exit.", help_result.output
+    ), help_result.output

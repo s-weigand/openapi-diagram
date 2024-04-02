@@ -16,10 +16,12 @@ from bs4 import BeautifulSoup
 from pydantic import TypeAdapter
 
 from openapi_diagram import CACHE_DIR
+from openapi_diagram import OPENAPI_TO_PLANTUML_DEFAULT_VERSION
 from openapi_diagram.utils import openapi_3_dot_1_compat
 
 if TYPE_CHECKING:
     from pathlib import Path
+
 
 OPENAPI_TO_PLANTUML_MAVEN_URL = (
     "https://repo1.maven.org/maven2/com/github/davidmoten/openapi-to-plantuml"
@@ -125,7 +127,7 @@ def _get_openapi_to_plantuml_download_url(version: str) -> str:
     raise RuntimeError(msg)
 
 
-def get_openapi_to_plantuml_path(version: str = "0.1.28") -> Path:
+def get_openapi_to_plantuml_path(version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERSION) -> Path:
     """Get path to cached ``openapi-to-plantuml`` file.
 
     Parameters
@@ -140,7 +142,7 @@ def get_openapi_to_plantuml_path(version: str = "0.1.28") -> Path:
     return CACHE_DIR / f"openapi-to-plantuml-{version}.jar"
 
 
-def download_openapi_to_plantuml(version: str = "0.1.28") -> Path:
+def download_openapi_to_plantuml(version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERSION) -> Path:
     """Download ``openapi-to-plantuml`` jar file with dependencies to cache folder.
 
     Parameters
@@ -175,7 +177,7 @@ def run_openapi_to_plantuml(
     output_path: Path,
     mode: OpenapiToPlantumlModes,
     output_format: OpenapiToPlantumlFormats,
-    version: str = "0.1.28",
+    version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERSION,
 ) -> list[Path]:
     """Run ``openapi-to-plantuml``.
 

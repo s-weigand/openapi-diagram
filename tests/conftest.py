@@ -35,7 +35,7 @@ def _mock_empty_path(monkeypatch: pytest.MonkeyPatch):
 
 
 @pytest.fixture()
-def mock_cache_dir(monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
+def empty_cache_dir(monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
     """Replace CACHDIR with mock path inside of ``tmp_path``."""
     mock_path = tmp_path / ".cache"
     mock_path.mkdir(parents=True, exist_ok=True)
@@ -49,5 +49,5 @@ def cached_openapi_to_plantuml(monkeypatch: pytest.MonkeyPatch):
     mock_path = TEST_DATA / ".cache"
     mock_path.mkdir(parents=True, exist_ok=True)
     with monkeypatch_all(monkeypatch, "CACHE_DIR", mock_path):
-        download_openapi_to_plantuml()
-        yield mock_path
+        cached_jar_file = download_openapi_to_plantuml()
+        yield cached_jar_file

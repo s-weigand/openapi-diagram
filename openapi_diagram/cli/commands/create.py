@@ -44,3 +44,4 @@ def create(
         output_format.value.upper(),  # type:ignore[attr-defined]
         version,
     )
+    raise typer.Exit(0)
