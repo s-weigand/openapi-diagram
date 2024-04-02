@@ -29,7 +29,8 @@
         "esbenp.prettier-vscode",
         "oderwat.indent-rainbow",
         "charliermarsh.ruff",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "nickmillerdev.pytest-fixtures"
       ]
     }
   },
