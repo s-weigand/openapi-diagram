@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import sys
+from enum import StrEnum
 from pathlib import Path  # noqa: TCH003
 from typing import get_args
 
@@ -12,17 +12,8 @@ from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlFormats
 from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlModes
 from openapi_diagram.openapi_to_plantuml import run_openapi_to_plantuml
 
-if sys.version_info >= (3, 11):
-    from enum import StrEnum
-else:
-    from enum import Enum
-
-    class StrEnum(str, Enum):
-        """String enum."""
-
-
-ModesEnum = StrEnum("ModesEnum", get_args(OpenapiToPlantumlModes))  # type:ignore[call-overload]
-FormatsEnum = StrEnum("Formats", get_args(OpenapiToPlantumlFormats))  # type:ignore[call-overload]
+ModesEnum = StrEnum("ModesEnum", get_args(OpenapiToPlantumlModes))  # type:ignore[misc]
+FormatsEnum = StrEnum("Formats", get_args(OpenapiToPlantumlFormats))  # type:ignore[misc]
 
 
 def create(
@@ -32,16 +23,16 @@ def create(
     output_path: Path = typer.Option(
         help="File (``mode='single'``) or folder (``mode='split'``) to write the output to.",
     ),
-    mode: ModesEnum = typer.Option(),  # type:ignore[valid-type]
-    output_format: FormatsEnum = typer.Option(),  # type:ignore[valid-type]
+    mode: ModesEnum = typer.Option(),
+    output_format: FormatsEnum = typer.Option(),
     version: str = "0.1.28",
 ):
     """Create diagram/-s from openapi spec file."""
     run_openapi_to_plantuml(
         openapi_spec,
         output_path,
-        mode.value,  # type:ignore[attr-defined]
-        output_format.value.upper(),  # type:ignore[attr-defined]
+        mode.value,  # type:ignore[arg-type]
+        output_format.value.upper(),  # type:ignore[arg-type]
         version,
     )
     raise typer.Exit(0)
