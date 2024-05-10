@@ -167,7 +167,8 @@ def download_openapi_to_plantuml(version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERS
     download_response = httpx.get(download_url, follow_redirects=True)
     expected_md5_hash = httpx.get(f"{download_url}.md5", follow_redirects=True)
     if md5(download_response.content).hexdigest() != expected_md5_hash.text:
-        raise DownloadVerificationError
+        msg = "Downloaded openapi-to-plantuml jar has invalid hash."
+        raise DownloadVerificationError(msg)
     jar_path.write_bytes(download_response.content)
     return jar_path
 

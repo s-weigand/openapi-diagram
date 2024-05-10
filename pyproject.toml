@@ -58,6 +58,7 @@ test = [
   "pytest>=7.4.3",
   "pytest-cov>=4.1",
   "pytest-env",
+  "pytest-httpx",
 ]
 [project.urls]
 Changelog = "https://openapi-diagram.readthedocs.io/en/latest/changelog.html"
