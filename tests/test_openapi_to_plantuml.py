@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from shutil import which
 from typing import TYPE_CHECKING
 from typing import get_args
 from unittest.mock import MagicMock
@@ -14,6 +16,7 @@ from openapi_diagram.openapi_to_plantuml import OPENAPI_TO_PLANTUML_MAVEN_URL
 from openapi_diagram.openapi_to_plantuml import DownloadVerificationError
 from openapi_diagram.openapi_to_plantuml import MissingDependecyWarning
 from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlFormats
+from openapi_diagram.openapi_to_plantuml import _find_java_executable
 from openapi_diagram.openapi_to_plantuml import _get_latest_openapi_to_plantuml_version
 from openapi_diagram.openapi_to_plantuml import _get_openapi_to_plantuml_download_url
 from openapi_diagram.openapi_to_plantuml import download_openapi_to_plantuml
@@ -23,8 +26,6 @@ from tests import RUN_SLOW_TEST
 from tests import TEST_DATA
 
 if TYPE_CHECKING:
-    from pathlib import Path
-
     from pytest_httpx import HTTPXMock
 
 
@@ -136,6 +137,22 @@ def test_download_openapi_to_plantuml_use_cached(monkeypatch: pytest.MonkeyPatch
         mock.assert_not_called()
 
 
+def test__find_java_executable_java_home(monkeypatch: pytest.MonkeyPatch):
+    """Get java from JAVA_HOME env var."""
+    with monkeypatch.context() as m:
+        m.setenv("JAVA_HOME", "/usr/local/java")
+        assert _find_java_executable() == Path("/usr/local/java/bin/java")
+
+
+def test__find_java_executable_path(monkeypatch: pytest.MonkeyPatch):
+    """Get java from PATH env var."""
+    with monkeypatch.context() as m:
+        m.delenv("JAVA_HOME")
+        java_path = which("java")
+        assert java_path is not None
+        assert _find_java_executable() == Path(java_path)
+
+
 @pytest.mark.parametrize(
     "spec_file", ["petstore-3-0.json", "petstore-3-0.yaml", "petstore-3-1.yaml"]
 )
@@ -184,4 +201,7 @@ def test_run_openapi_to_plantuml_java_not_installed(tmp_path: Path):
         match="Graphviz installation not found, some output formats might not be available.",
     ):
         run_openapi_to_plantuml(tmp_path, tmp_path, "single", "svg")
-    assert str(exceinfo.value) == "Can not run openapi-to-plantuml without java installed."
+    assert str(exceinfo.value) == (
+        "Can not run openapi-to-plantuml without java installed."
+        "Couldn't find the 'JAVA_HOME' environment variable or java on the PATH."
+    )

@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import os
 import subprocess
 from hashlib import md5
+from pathlib import Path
 from shutil import which
-from typing import TYPE_CHECKING
 from typing import Literal
 from typing import TypeAlias
 from typing import cast
@@ -18,10 +19,6 @@ from pydantic import TypeAdapter
 from openapi_diagram import CACHE_DIR
 from openapi_diagram import OPENAPI_TO_PLANTUML_DEFAULT_VERSION
 from openapi_diagram.utils import openapi_3_dot_1_compat
-
-if TYPE_CHECKING:
-    from pathlib import Path
-
 
 OPENAPI_TO_PLANTUML_MAVEN_URL = (
     "https://repo1.maven.org/maven2/com/github/davidmoten/openapi-to-plantuml"
@@ -173,6 +170,34 @@ def download_openapi_to_plantuml(version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERS
     return jar_path
 
 
+def _find_java_executable() -> Path:
+    """Find java executable using lookup order ``JAVA_HOME``, ``PATH``.
+
+    Returns
+    -------
+    Path
+        Path to the java executable.
+
+    Raises
+    ------
+    MissingDependecyError
+        If no java executable could be found via JAVA_HOME or on the path.
+    """
+    java_home = os.getenv("JAVA_HOME", None)
+    if java_home is not None:
+        return Path(java_home) / "bin/java"
+
+    java_path = which("java")
+    if java_path is not None:
+        return Path(java_path)
+
+    msg = (
+        "Can not run openapi-to-plantuml without java installed."
+        "Couldn't find the 'JAVA_HOME' environment variable or java on the PATH."
+    )
+    raise MissingDependecyError(msg)
+
+
 def run_openapi_to_plantuml(
     openapi_spec: Path,
     output_path: Path,
@@ -213,10 +238,8 @@ def run_openapi_to_plantuml(
     if which("dot") is None:
         msg = "Graphviz installation not found, some output formats might not be available."
         warn(MissingDependecyWarning(msg), stacklevel=2)
-    java_path = which("java")
-    if java_path is None:
-        msg = "Can not run openapi-to-plantuml without java installed."
-        raise MissingDependecyError(msg)
+
+    java_executable = _find_java_executable()
 
     jar_path = download_openapi_to_plantuml(version)
     if mode == "single":
@@ -224,13 +247,13 @@ def run_openapi_to_plantuml(
     with openapi_3_dot_1_compat(openapi_spec) as spec_file:
         subprocess.run(
             [
-                java_path,
+                java_executable.resolve().as_posix(),
                 "-jar",
-                f"{jar_path.resolve().as_posix()}",
+                jar_path.resolve().as_posix(),
                 mode,
-                f"{spec_file.resolve().as_posix()}",
+                spec_file.resolve().as_posix(),
                 diagram_format.upper(),
-                f"{output_path.resolve().as_posix()}",
+                output_path.resolve().as_posix(),
             ],
             check=True,
         )

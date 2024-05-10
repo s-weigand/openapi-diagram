@@ -33,6 +33,7 @@ def _mock_empty_path(monkeypatch: pytest.MonkeyPatch):
     """Set PATH environment variale to empty value."""
     with monkeypatch.context() as m:
         m.setenv("PATH", "")
+        m.delenv("JAVA_HOME")
         yield
 
 
