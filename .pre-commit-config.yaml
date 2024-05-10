@@ -3,12 +3,12 @@ repos:
   #    FORMATTER    #
   ###################
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: "1.7.0"
+    rev: "1.8.0"
     hooks:
       - id: pyproject-fmt
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-ast
       - id: check-builtin-literals
@@ -43,7 +43,7 @@ repos:
   ###################
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.3.3
+    rev: v0.4.4
     hooks:
       - id: ruff
         name: "ruff sort imports"
@@ -58,7 +58,7 @@ repos:
         name: "ruff lint"
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.9.0
+    rev: v1.10.0
     hooks:
       - id: mypy
         exclude: "docs"
@@ -81,17 +81,14 @@ repos:
           - "--skip-checking-short-docstrings=False"
         name: "flake8 lint docstrings"
         exclude: "^(docs/|tests?/|openapi_diagram/cli/commands|openapi_diagram/server/app.py)"
-        additional_dependencies: [pydoclint==0.3.8]
+        additional_dependencies: [pydoclint==0.4.1]
 
   - repo: https://github.com/econchick/interrogate
-    rev: 1.5.0
+    rev: 1.7.0
     hooks:
       - id: interrogate
         args: [-v, --config=pyproject.toml, "openapi_diagram"]
         pass_filenames: false
-        # Until there is a new release we need to add 'pkg_resources' for py3.11+
-        # Ref.: https://github.com/econchick/interrogate/issues/162
-        additional_dependencies: ["setuptools; python_version>='3.11'"]
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.6
@@ -102,6 +99,6 @@ repos:
         args: [-L nnumber]
 
   - repo: https://github.com/rhysd/actionlint
-    rev: "v1.6.27"
+    rev: "v1.7.0"
     hooks:
       - id: actionlint
