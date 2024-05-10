@@ -1,5 +1,14 @@
 name: "Tests"
-on: [push, pull_request]
+
+on:
+  push:
+    tags:
+      - v**
+    branches-ignore:
+      - "dependabot/**"
+      - "sourcery/**"
+      - "pre-commit-ci-update-config"
+  pull_request:
 
 jobs:
   pre-commit:
