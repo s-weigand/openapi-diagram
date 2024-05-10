@@ -17,7 +17,7 @@ from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlModes  # noqa: 
 class CreateDiagram(BaseModel):
     """Request data to create diagrams."""
 
-    model_config = ConfigDict(alias_generator=to_camel)
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
     file_name: Path
     file_content: str

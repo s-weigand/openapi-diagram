@@ -57,6 +57,8 @@ def cached_openapi_to_plantuml(monkeypatch: pytest.MonkeyPatch):
 
 
 @pytest.fixture()
-def app_client() -> TestClient:
+def app_client(monkeypatch: pytest.MonkeyPatch) -> TestClient:
     """REST app test client."""
-    return TestClient(app)
+    client = TestClient(app)
+    with monkeypatch_all(monkeypatch, "httpx", client):
+        yield client
