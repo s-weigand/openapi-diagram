@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Annotated
 
 import typer
 
@@ -39,12 +40,15 @@ def show():
 
 @cache_app.command()
 def remove(
-    version: str = typer.Option(
-        help=(
-            "Version to remove from cache. "
-            "If 'all' is passed all files will be removed from cache."
-        )
-    ),
+    version: Annotated[
+        str,
+        typer.Option(
+            help=(
+                "Version to remove from cache. "
+                "If 'all' is passed all files will be removed from cache."
+            )
+        ),
+    ],
 ):
     """Remove files openapi-to-plantuml *.jar from caches."""
     if version == "all":
@@ -61,9 +65,9 @@ def remove(
 
 @cache_app.command()
 def get(
-    version: str = typer.Option(
-        default=OPENAPI_TO_PLANTUML_DEFAULT_VERSION, help="Version to download."
-    ),
+    version: Annotated[
+        str, typer.Option(help="Version to download.")
+    ] = OPENAPI_TO_PLANTUML_DEFAULT_VERSION,
 ):
     """Download openapi-to-plantuml *.jar file into cache."""
     cached_file = get_openapi_to_plantuml_path(version)
