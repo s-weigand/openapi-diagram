@@ -28,7 +28,7 @@ def test_cli_create(tmp_path: Path):
             output_path.as_posix(),
             "--mode",
             "single",
-            "--output-format",
+            "--diagram-format",
             "puml",
         ],
     )
