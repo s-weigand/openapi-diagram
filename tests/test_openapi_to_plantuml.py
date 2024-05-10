@@ -146,7 +146,7 @@ def test_run_openapi_to_plantuml(tmp_path: Path, spec_file: str):
     assert OPENAPI_TO_PLANTUML_DEFAULT_VERSION in docstring
     openapi_spec = TEST_DATA / spec_file
     output = tmp_path / "result.puml"
-    result = run_openapi_to_plantuml(openapi_spec, output, "single", "PUML")
+    result = run_openapi_to_plantuml(openapi_spec, output, "single", "puml")
     assert len(result) == 1
     assert result[0] == output
     assert output.read_text().rstrip() == (TEST_DATA / "petstore.puml").read_text().rstrip()
@@ -156,7 +156,7 @@ def test_run_openapi_to_plantuml_split(tmp_path: Path):
     """Using `split` generation creates multiple files."""
     openapi_spec = TEST_DATA / "petstore-3-0.json"
     output = tmp_path
-    result = run_openapi_to_plantuml(openapi_spec, output, "split", "SVG")
+    result = run_openapi_to_plantuml(openapi_spec, output, "split", "svg")
     assert len(result) == 19
 
 
@@ -183,5 +183,5 @@ def test_run_openapi_to_plantuml_java_not_installed(tmp_path: Path):
         MissingDependecyWarning,
         match="Graphviz installation not found, some output formats might not be available.",
     ):
-        run_openapi_to_plantuml(tmp_path, tmp_path, "single", "SVG")
+        run_openapi_to_plantuml(tmp_path, tmp_path, "single", "svg")
     assert str(exceinfo.value) == "Can not run openapi-to-plantuml without java installed."

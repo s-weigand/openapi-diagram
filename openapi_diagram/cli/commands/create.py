@@ -32,7 +32,7 @@ def create(
         openapi_spec,
         output_path,
         mode.value,  # type:ignore[arg-type]
-        output_format.value.upper(),  # type:ignore[arg-type]
+        output_format.value,  # type:ignore[arg-type]
         version,
     )
     raise typer.Exit(0)
