@@ -37,7 +37,7 @@ dependencies = [
   "pydantic>=2",
   "PyYAML>=6",
   "rich>=13.7",
-  "typer>=0.9",
+  "typer>=0.12.3",
 ]
 [project.optional-dependencies]
 dev = [
