@@ -177,7 +177,7 @@ def run_openapi_to_plantuml(
     openapi_spec: Path,
     output_path: Path,
     mode: OpenapiToPlantumlModes,
-    output_format: OpenapiToPlantumlFormats,
+    diagram_format: OpenapiToPlantumlFormats,
     version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERSION,
 ) -> list[Path]:
     """Run ``openapi-to-plantuml``.
@@ -190,8 +190,8 @@ def run_openapi_to_plantuml(
         File (``mode='single'``) or folder (``mode='split'``) to write the output to.
     mode : OpenapiToPlantumlModes
         Mode to run
-    output_format : OpenapiToPlantumlFormats
-        Format the output should be in.
+    diagram_format : OpenapiToPlantumlFormats
+        Format the diagram/-s should be in.
     version : str
         Version of ``openapi-to-plantuml`` to use. Defaults to "0.1.28"
 
@@ -206,9 +206,9 @@ def run_openapi_to_plantuml(
         If the java installation can not be found.
     """
     mode = cast(OpenapiToPlantumlModes, TypeAdapter(OpenapiToPlantumlModes).validate_python(mode))
-    output_format = cast(
+    diagram_format = cast(
         OpenapiToPlantumlFormats,
-        TypeAdapter(OpenapiToPlantumlFormats).validate_python(output_format),
+        TypeAdapter(OpenapiToPlantumlFormats).validate_python(diagram_format),
     )
     if which("dot") is None:
         msg = "Graphviz installation not found, some output formats might not be available."
@@ -219,6 +219,8 @@ def run_openapi_to_plantuml(
         raise MissingDependecyError(msg)
 
     jar_path = download_openapi_to_plantuml(version)
+    if mode == "single":
+        output_path.parent.mkdir(parents=True, exist_ok=True)
     with openapi_3_dot_1_compat(openapi_spec) as spec_file:
         subprocess.run(
             [
@@ -227,11 +229,11 @@ def run_openapi_to_plantuml(
                 f"{jar_path.resolve().as_posix()}",
                 mode,
                 f"{spec_file.resolve().as_posix()}",
-                output_format.upper(),
+                diagram_format.upper(),
                 f"{output_path.resolve().as_posix()}",
             ],
             check=True,
         )
     if mode == "single":
-        return list(output_path.parent.glob("*"))
-    return list(output_path.glob("*"))
+        return list(output_path.parent.glob(f"*.{diagram_format}"))
+    return list(output_path.glob(f"*.{diagram_format}"))

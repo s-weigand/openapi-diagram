@@ -8,8 +8,10 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 import pytest
+from fastapi.testclient import TestClient
 
 from openapi_diagram.openapi_to_plantuml import download_openapi_to_plantuml
+from openapi_diagram.server.app import app
 from tests import TEST_DATA
 
 if TYPE_CHECKING:
@@ -51,3 +53,9 @@ def cached_openapi_to_plantuml(monkeypatch: pytest.MonkeyPatch):
     with monkeypatch_all(monkeypatch, "CACHE_DIR", mock_path):
         cached_jar_file = download_openapi_to_plantuml()
         yield cached_jar_file
+
+
+@pytest.fixture()
+def app_client() -> TestClient:
+    """REST app test client."""
+    return TestClient(app)

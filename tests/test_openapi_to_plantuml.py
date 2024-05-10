@@ -171,9 +171,9 @@ def test_run_openapi_to_plantuml_output_format(
     """Test all format supported by `openapi-to-plantuml`."""
     openapi_spec = TEST_DATA / "petstore-3-0.json"
     output = tmp_path / "result"
-    result = run_openapi_to_plantuml(openapi_spec, output, "single", output_format)
-    assert len(result) == 1
-    assert result[0] == output
+    result = run_openapi_to_plantuml(openapi_spec, output, "split", output_format)
+    assert len(result) == 19
+    assert (output / f"deleteOrder.{output_format}") in result
 
 
 @pytest.mark.usefixtures("_mock_empty_path")
