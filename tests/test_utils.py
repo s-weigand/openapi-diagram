@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import Any
 
+import pytest
 import yaml
 
+from openapi_diagram.utils import UnsopportFileTypeError
 from openapi_diagram.utils import openapi_3_dot_1_compat
 from tests import TEST_DATA
 
@@ -41,3 +44,12 @@ def test_openapi_3_dot_1_compat_no_op_yaml():
     desired_spec_file = TEST_DATA / "petstore-3-0.json"
     with openapi_3_dot_1_compat(TEST_DATA / "petstore-3-0.yaml") as spec_file:
         assert yaml.safe_load(spec_file.read_text()) == json.loads(desired_spec_file.read_text())
+
+
+def test_openapi_3_dot_1_compat_file_type_not_supported():
+    """Yaml content is equivalent to json one."""
+    with pytest.raises(UnsopportFileTypeError) as execinfo, openapi_3_dot_1_compat(
+        Path("petstore-3-0.txt")
+    ):
+        pass
+    assert str(execinfo.value) == "File type: *.txt is not supported."

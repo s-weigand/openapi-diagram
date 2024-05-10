@@ -14,6 +14,10 @@ import yaml
 Json = dict[str | Literal["anyOf", "type"], "Json"] | list["Json"] | str | bool
 
 
+class UnsopportFileTypeError(ValueError):
+    """Error raised when a file type isn't supported."""
+
+
 def convert_3_dot_1_to_3_dot_0(json: dict[str, Json]):  # noqa: C901, DOC101, DOC109, DOC103
     """Attempt to convert version 3.1.0 of some openAPI json into 3.0.3.
 
@@ -83,7 +87,7 @@ def openapi_3_dot_1_compat(spec_file: Path) -> Generator[Path, None, None]:
         spec_data = yaml.safe_load(spec_file.read_text())
     else:
         msg = f"File type: *{spec_file.suffix} is not supported."
-        raise ValueError(msg)
+        raise UnsopportFileTypeError(msg)
     with TemporaryDirectory() as tmp_dir:
         tmp_file = Path(tmp_dir) / "openapi_spec.json"
         if spec_data["openapi"].startswith("3.1"):
