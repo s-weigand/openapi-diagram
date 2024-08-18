@@ -17,6 +17,12 @@ from openapi_diagram.server.models.request_models import CreateDiagram  # noqa: 
 app = FastAPI()
 
 
+@app.get("/healthy")
+async def healthy():
+    """If the server is running."""
+    return {"status": "OK"}
+
+
 @app.post("/api/v1/create-diagrams")
 async def create_diagrams(create_data: CreateDiagram):
     """Create openapi diagram/-s and return a zip file."""

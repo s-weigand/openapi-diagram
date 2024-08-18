@@ -12,6 +12,13 @@ if TYPE_CHECKING:
     from fastapi.testclient import TestClient
 
 
+def test_healthy(app_client: TestClient):
+    """Always return OK status."""
+    resp = app_client.get("/healthy")
+    assert resp.status_code == 200
+    assert resp.json() == {"status": "OK"}
+
+
 def test_create_single_diagram(app_client: TestClient):
     """Create diagram file for openapi spec file."""
     openapi_spec = TEST_DATA / "petstore-3-0.json"
