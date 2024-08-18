@@ -21,9 +21,10 @@ app = FastAPI()
 async def create_diagrams(create_data: CreateDiagram):
     """Create openapi diagram/-s and return a zip file."""
     buffer = BytesIO()
-    with ZipFile(buffer, "a", ZIP_DEFLATED) as zipfile, TemporaryDirectory(
-        prefix="openapi-diagram"
-    ) as tmp_dir:
+    with (
+        ZipFile(buffer, "a", ZIP_DEFLATED) as zipfile,
+        TemporaryDirectory(prefix="openapi-diagram") as tmp_dir,
+    ):
         output_path = Path(tmp_dir) / "output"
         if create_data.mode == "single":
             output_path = (
