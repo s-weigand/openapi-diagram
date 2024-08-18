@@ -15,8 +15,10 @@
       "command_line_interface": "typer",
       "open_source_license": "Apache Software License",
       "git_host_url": "https://github.com",
-      "install_pre_commit": "yes",
-      "_copy_without_render": ["docs/_templates/autosummary"],
+      "install_pre_commit": "no",
+      "_copy_without_render": [
+        "docs/_templates/autosummary"
+      ],
       "_template": "https://github.com/s-weigand/cookiecutter-pypackage"
     }
   },
