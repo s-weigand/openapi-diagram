@@ -4,11 +4,14 @@ from __future__ import annotations
 
 from functools import partial
 from pathlib import Path
-from typing import Callable
+from typing import TYPE_CHECKING
 
 from fastapi_cli.cli import app as fastapi_cli_app
 
 from openapi_diagram.server import app as rest_app
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def create_serve_callback() -> Callable:

@@ -196,9 +196,12 @@ def test_run_openapi_to_plantuml_output_format(
 @pytest.mark.usefixtures("_mock_empty_path")
 def test_run_openapi_to_plantuml_java_not_installed(tmp_path: Path):
     """Raise Runtime error if java can not be found on the path."""
-    with pytest.raises(RuntimeError) as exceinfo, pytest.warns(
-        MissingDependecyWarning,
-        match="Graphviz installation not found, some output formats might not be available.",
+    with (
+        pytest.raises(RuntimeError) as exceinfo,
+        pytest.warns(
+            MissingDependecyWarning,
+            match="Graphviz installation not found, some output formats might not be available.",
+        ),
     ):
         run_openapi_to_plantuml(tmp_path, tmp_path, "single", "svg")
     assert str(exceinfo.value) == (

@@ -1,4 +1,3 @@
-
 [build-system]
 build-backend = "hatchling.build"
 requires = [
@@ -35,24 +34,23 @@ dependencies = [
   "httpx>=0.27",
   "platformdirs>=4",
   "pydantic>=2",
-  "PyYAML>=6",
+  "pyyaml>=6",
   "rich>=13.7",
   "typer>=0.12.3",
 ]
-[project.optional-dependencies]
-dev = [
-  "openapi_diagram[docs,test]",
+optional-dependencies.dev = [
+  "openapi-diagram[docs,test]",
 ]
-docs = [
+optional-dependencies.docs = [
   "myst-parser>=2",
-  "numpydoc>=01.6",
-  "Sphinx>=7",
+  "numpydoc>=1.6",
+  "sphinx>=7",
   "sphinx-copybutton>=0.5.2",
   "sphinx-last-updated-by-git>=0.3.6",
   "sphinx-rtd-theme>=1.3",
-  "sphinxcontrib-jquery>=4.1", # Needed for the search to work Ref.: https://github.com/readthedocs/sphinx_rtd_theme/issues/1434
+  "sphinxcontrib-jquery>=4.1",         # Needed for the search to work Ref.: https://github.com/readthedocs/sphinx_rtd_theme/issues/1434
 ]
-test = [
+optional-dependencies.test = [
   "coverage[toml]>=7.3.2",
   "pluggy>=1.3",
   "pytest>=7.4.3",
@@ -60,23 +58,21 @@ test = [
   "pytest-env",
   "pytest-httpx",
 ]
-[project.urls]
-Changelog = "https://openapi-diagram.readthedocs.io/en/latest/changelog.html"
-Documentation = "https://openapi-diagram.readthedocs.io"
-Homepage = "https://github.com/s-weigand/openapi-diagram"
-Source = "https://github.com/s-weigand/openapi-diagram"
-Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
-[project.scripts]
-"openapi-diagram" = "openapi_diagram.cli:app"
+urls.Changelog = "https://openapi-diagram.readthedocs.io/en/latest/changelog.html"
+urls.Documentation = "https://openapi-diagram.readthedocs.io"
+urls.Homepage = "https://github.com/s-weigand/openapi-diagram"
+urls.Source = "https://github.com/s-weigand/openapi-diagram"
+urls.Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
+scripts."openapi-diagram" = "openapi_diagram.cli:app"
 
 [tool.hatch.version]
 path = "openapi_diagram/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = ["/openapi_diagram", "/tests"]
+include = [ "/openapi_diagram", "/tests" ]
 
 [tool.hatch.envs.default]
-features = ["dev"]
+features = [ "dev" ]
 
 [tool.docformatter]
 black = true
@@ -144,11 +140,10 @@ warn_unused_ignores = true
 strict_equality = true
 python_version = "3.11"
 
-
 # For now this is not used because pydoclint does not support toml when used with flake8
 
 [tool.interrogate]
-exclude = ["docs", "tests"]
+exclude = [ "docs", "tests" ]
 ignore-nested-functions = true
 ignore-init-module = true
 fail-under = 100

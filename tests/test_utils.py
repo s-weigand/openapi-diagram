@@ -48,8 +48,9 @@ def test_openapi_3_dot_1_compat_no_op_yaml():
 
 def test_openapi_3_dot_1_compat_file_type_not_supported():
     """Yaml content is equivalent to json one."""
-    with pytest.raises(UnsopportFileTypeError) as execinfo, openapi_3_dot_1_compat(
-        Path("petstore-3-0.txt")
+    with (
+        pytest.raises(UnsopportFileTypeError) as execinfo,
+        openapi_3_dot_1_compat(Path("petstore-3-0.txt")),
     ):
         pass
     assert str(execinfo.value) == "File type: *.txt is not supported."

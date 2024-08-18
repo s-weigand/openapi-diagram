@@ -6,10 +6,13 @@ import json
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Generator
+from typing import TYPE_CHECKING
 from typing import Literal
 
 import yaml
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 Json = dict[str | Literal["anyOf", "type"], "Json"] | list["Json"] | str | bool
 

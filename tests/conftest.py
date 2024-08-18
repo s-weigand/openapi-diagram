@@ -28,16 +28,16 @@ def monkeypatch_all(monkeypatch: pytest.MonkeyPatch, name: str, value: Any):
         yield
 
 
-@pytest.fixture()
+@pytest.fixture
 def _mock_empty_path(monkeypatch: pytest.MonkeyPatch):
-    """Set PATH environment variale to empty value."""
+    """Set PATH environment variable to empty value."""
     with monkeypatch.context() as m:
         m.setenv("PATH", "")
         m.delenv("JAVA_HOME")
         yield
 
 
-@pytest.fixture()
+@pytest.fixture
 def empty_cache_dir(monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
     """Replace CACHDIR with mock path inside of ``tmp_path``."""
     mock_path = tmp_path / ".cache"
@@ -56,7 +56,7 @@ def cached_openapi_to_plantuml(monkeypatch: pytest.MonkeyPatch):
         yield cached_jar_file
 
 
-@pytest.fixture()
+@pytest.fixture
 def app_client(monkeypatch: pytest.MonkeyPatch) -> TestClient:
     """REST app test client."""
     client = TestClient(app)
