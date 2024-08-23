@@ -7,7 +7,8 @@ from typing import Annotated
 from zipfile import ZipFile
 
 import httpx
-import typer  # noqa: TCH002
+import typer
+from rich.console import Console
 
 from openapi_diagram.cli.commands import DiagramFormat  # noqa: TCH001
 from openapi_diagram.cli.commands import Mode  # noqa: TCH001
@@ -21,19 +22,29 @@ def fetch(
     output_path: OutputPath,
     mode: Mode,
     diagram_format: DiagramFormat,
-    base_url: Annotated[str, typer.Option(help="Base url of the openapi-diagram server.")],
+    base_url: Annotated[
+        str, typer.Option("--base-url", "-u", help="Base url of the openapi-diagram server.")
+    ],
+    max_timeout: Annotated[
+        int, typer.Option("--max-timeout", "-t", help="Maximum time to wai for server response.")
+    ] = 30,
 ):
     """Fetch diagram from openapi-diagram server."""
+    console = Console()
     request_data = CreateDiagram(
         file_name=openapi_spec,
         file_content=openapi_spec.read_text(),
         mode=mode.value,
         diagram_format=diagram_format.value,
     )
-    resp = httpx.post(
-        f"{base_url.rstrip('/')}/api/v1/create-diagrams",
-        json=request_data.model_dump(mode="json", by_alias=True),
-    )
+    with console.status("[bold green]Fetching diagrams..."):
+        resp = httpx.post(
+            f"{base_url.rstrip('/')}/api/v1/create-diagrams",
+            json=request_data.model_dump(mode="json", by_alias=True),
+            timeout=max_timeout,
+        )
+    if resp.status_code != 200:
+        raise typer.Exit(1)
 
     with ZipFile(BytesIO(resp.content)) as zip_resp:
         if mode.value == "single":

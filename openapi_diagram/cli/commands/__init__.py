@@ -17,22 +17,33 @@ FormatsEnum = StrEnum("Formats", get_args(OpenapiToPlantumlFormats))  # type:ign
 
 OpenapiSpec = Annotated[
     Path,
-    typer.Option(exists=True, help="Spec file to use (only JSON and YAML) are supported."),
+    typer.Option(
+        "--openapi-spec",
+        "-s",
+        exists=True,
+        help="Spec file to use (only JSON and YAML) are supported.",
+    ),
 ]
 
 OutputPath = Annotated[
     Path,
     typer.Option(
+        "--output-path",
+        "-o",
         help="File (``mode='single'``) or folder (``mode='split'``) to write the output to.",
     ),
 ]
 Mode = Annotated[
     ModesEnum,
     typer.Option(
+        "--mode",
+        "-m",
         help=(
             "Mode to run openapi-to-plantuml in. "
             "Where 'single' creates one diagram and 'split' creates a diagram per route."
-        )
+        ),
     ),
 ]
-DiagramFormat = Annotated[FormatsEnum, typer.Option(help="Format the diagram should be in.")]
+DiagramFormat = Annotated[
+    FormatsEnum, typer.Option("--diagram-format", "-d", help="Format the diagram should be in.")
+]
