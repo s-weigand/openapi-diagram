@@ -73,6 +73,7 @@ include = [ "/openapi_diagram", "/tests" ]
 
 [tool.hatch.envs.default]
 features = [ "dev" ]
+installer = "uv"
 
 [tool.docformatter]
 black = true
