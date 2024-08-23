@@ -36,7 +36,7 @@ async def create_diagrams(create_data: CreateDiagram):
             output_path = (
                 output_path / f"{create_data.file_name.stem}.{create_data.diagram_format}"
             )
-        spec_file = Path(tmp_dir) / create_data.file_name
+        spec_file = Path(tmp_dir) / create_data.file_name.name
         spec_file.write_text(create_data.file_content)
         files = run_openapi_to_plantuml(
             openapi_spec=spec_file,
