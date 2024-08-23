@@ -14,7 +14,7 @@ import pytest
 from openapi_diagram import OPENAPI_TO_PLANTUML_DEFAULT_VERSION
 from openapi_diagram.openapi_to_plantuml import OPENAPI_TO_PLANTUML_MAVEN_URL
 from openapi_diagram.openapi_to_plantuml import DownloadVerificationError
-from openapi_diagram.openapi_to_plantuml import MissingDependecyWarning
+from openapi_diagram.openapi_to_plantuml import MissingDependencyWarning
 from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlFormats
 from openapi_diagram.openapi_to_plantuml import _find_java_executable
 from openapi_diagram.openapi_to_plantuml import _get_latest_openapi_to_plantuml_version
@@ -199,7 +199,7 @@ def test_run_openapi_to_plantuml_java_not_installed(tmp_path: Path):
     with (
         pytest.raises(RuntimeError) as exceinfo,
         pytest.warns(
-            MissingDependecyWarning,
+            MissingDependencyWarning,
             match="Graphviz installation not found, some output formats might not be available.",
         ),
     ):

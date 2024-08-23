@@ -62,11 +62,11 @@ class DownloadVerificationError(Exception):
     """Error thrown if download does not match hash."""
 
 
-class MissingDependecyError(RuntimeError):
+class MissingDependencyError(RuntimeError):
     """Error thrown when an essential dependency is missing."""
 
 
-class MissingDependecyWarning(UserWarning):
+class MissingDependencyWarning(UserWarning):
     """Warn when a non essential dependency is missing."""
 
 
@@ -195,7 +195,7 @@ def _find_java_executable() -> Path:
         "Can not run openapi-to-plantuml without java installed."
         "Couldn't find the 'JAVA_HOME' environment variable or java on the PATH."
     )
-    raise MissingDependecyError(msg)
+    raise MissingDependencyError(msg)
 
 
 def run_openapi_to_plantuml(
@@ -237,7 +237,7 @@ def run_openapi_to_plantuml(
     )
     if which("dot") is None:
         msg = "Graphviz installation not found, some output formats might not be available."
-        warn(MissingDependecyWarning(msg), stacklevel=2)
+        warn(MissingDependencyWarning(msg), stacklevel=2)
 
     java_executable = _find_java_executable()
 
