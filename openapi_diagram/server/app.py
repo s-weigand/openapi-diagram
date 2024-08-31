@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -11,10 +12,19 @@ from zipfile import ZipFile
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 
+from openapi_diagram.openapi_to_plantuml import download_openapi_to_plantuml
 from openapi_diagram.openapi_to_plantuml import run_openapi_to_plantuml
 from openapi_diagram.server.models.request_models import CreateDiagram  # noqa: TCH001
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    """Server startup and tear down logic."""
+    download_openapi_to_plantuml()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/healthy")
