@@ -22,6 +22,7 @@ OpenapiSpec = Annotated[
         "-s",
         exists=True,
         help="Spec file to use (only JSON and YAML) are supported.",
+        envvar="OPENAPI_DIAGRAM_SPEC_FILE_PATH",
     ),
 ]
 
@@ -31,6 +32,7 @@ OutputPath = Annotated[
         "--output-path",
         "-o",
         help="File (``mode='single'``) or folder (``mode='split'``) to write the output to.",
+        envvar="OPENAPI_DIAGRAM_OUTPUT_PATH",
     ),
 ]
 Mode = Annotated[
@@ -42,8 +44,15 @@ Mode = Annotated[
             "Mode to run openapi-to-plantuml in. "
             "Where 'single' creates one diagram and 'split' creates a diagram per route."
         ),
+        envvar="OPENAPI_DIAGRAM_MODE",
     ),
 ]
 DiagramFormat = Annotated[
-    FormatsEnum, typer.Option("--diagram-format", "-d", help="Format the diagram should be in.")
+    FormatsEnum,
+    typer.Option(
+        "--diagram-format",
+        "-d",
+        help="Format the diagram should be in.",
+        envvar="OPENAPI_DIAGRAM_FORMAT",
+    ),
 ]

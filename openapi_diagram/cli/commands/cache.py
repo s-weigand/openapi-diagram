@@ -15,7 +15,7 @@ from openapi_diagram.openapi_to_plantuml import get_openapi_to_plantuml_path
 if TYPE_CHECKING:
     from pathlib import Path
 
-cache_app = typer.Typer(no_args_is_help=True)
+cache_app = typer.Typer(help="Manage cached openapi-to-plantuml versions.", no_args_is_help=True)
 
 
 def _remove_cache_file(file_path: Path) -> None:

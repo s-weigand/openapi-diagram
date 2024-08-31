@@ -23,10 +23,22 @@ def fetch(
     mode: Mode,
     diagram_format: DiagramFormat,
     base_url: Annotated[
-        str, typer.Option("--base-url", "-u", help="Base url of the openapi-diagram server.")
+        str,
+        typer.Option(
+            "--base-url",
+            "-u",
+            help="Base url of the openapi-diagram server.",
+            envvar="OPENAPI_DIAGRAM_FETCH_URL",
+        ),
     ],
     max_timeout: Annotated[
-        int, typer.Option("--max-timeout", "-t", help="Maximum time to wai for server response.")
+        int,
+        typer.Option(
+            "--max-timeout",
+            "-t",
+            help="Maximum time to wai for server response.",
+            envvar="OPENAPI_DIAGRAM_FETCH_TIMEOUT",
+        ),
     ] = 30,
 ):
     """Fetch diagram from openapi-diagram server."""
