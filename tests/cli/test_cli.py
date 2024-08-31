@@ -6,6 +6,7 @@ import re
 
 from typer.testing import CliRunner
 
+from openapi_diagram import __version__
 from openapi_diagram import cli
 
 
@@ -20,3 +21,11 @@ def test_command_line_interface():
     assert re.search(
         r"--help\s+Show this message and exit.", help_result.output
     ), help_result.output
+
+
+def test_command_line_interface_version():
+    """Version flag shows correct version."""
+    runner = CliRunner()
+    result = runner.invoke(cli.app, ["--version"])
+    assert result.exit_code == 0
+    assert result.output == f"Openapi-Diagram Version: {__version__}\n"

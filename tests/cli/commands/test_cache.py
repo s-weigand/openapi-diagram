@@ -34,7 +34,7 @@ def test_cli_cache_remove_single_version(empty_cache_dir: Path):
     assert to_be_kept.is_file() is True
 
     runner = CliRunner()
-    result = runner.invoke(cli.app, ["cache", "remove", "--version", "0.0.0"])
+    result = runner.invoke(cli.app, ["cache", "remove", "--o2p-version", "0.0.0"])
 
     assert result.exit_code == 0, result.output
     assert to_be_removed.is_file() is False
@@ -55,7 +55,7 @@ def test_cli_cache_remove_all(empty_cache_dir: Path):
     assert to_be_kept.is_file() is True
 
     runner = CliRunner()
-    result = runner.invoke(cli.app, ["cache", "remove", "--version", "all"])
+    result = runner.invoke(cli.app, ["cache", "remove", "--o2p-version", "all"])
 
     assert result.exit_code == 0, result.output
     assert to_be_removed.is_file() is False
@@ -69,7 +69,7 @@ def test_cli_cache_remove_all(empty_cache_dir: Path):
 def test_cli_cache_remove_not_found():
     """Show error when no cache files exists for the specified version."""
     runner = CliRunner()
-    result = runner.invoke(cli.app, ["cache", "remove", "--version", "0.0.0"])
+    result = runner.invoke(cli.app, ["cache", "remove", "--o2p-version", "0.0.0"])
 
     assert result.exit_code == 1, result.output
     assert "Nothing cached for version '0.0.0'." in str(result.exc_info)
@@ -79,7 +79,7 @@ def test_cli_cache_get_cache_hit(cached_openapi_to_plantuml: Path):
     """Output for cache hit."""
     runner = CliRunner()
     result = runner.invoke(
-        cli.app, ["cache", "get", "--version", OPENAPI_TO_PLANTUML_DEFAULT_VERSION]
+        cli.app, ["cache", "get", "--o2p-version", OPENAPI_TO_PLANTUML_DEFAULT_VERSION]
     )
     assert result.exit_code == 0, result.output
     assert (

@@ -40,24 +40,24 @@ def show():
 
 @cache_app.command()
 def remove(
-    version: Annotated[
+    o2p_version: Annotated[
         str,
         typer.Option(
             help=(
-                "Version to remove from cache. "
+                "Version of openapi-to-plantuml to remove from cache. "
                 "If 'all' is passed all files will be removed from cache."
-            )
+            ),
         ),
     ],
 ):
     """Remove files openapi-to-plantuml *.jar from caches."""
-    if version == "all":
+    if o2p_version == "all":
         for cached_file in CACHE_DIR.glob("*.jar"):
             _remove_cache_file(cached_file)
         raise typer.Exit(0)
-    cached_file = get_openapi_to_plantuml_path(version)
+    cached_file = get_openapi_to_plantuml_path(o2p_version)
     if cached_file.is_file() is False:
-        msg = f"Nothing cached for version {version!r}."
+        msg = f"Nothing cached for version {o2p_version!r}."
         raise FileNotFoundError(msg)
     _remove_cache_file(cached_file)
     raise typer.Exit(0)
@@ -65,18 +65,18 @@ def remove(
 
 @cache_app.command()
 def get(
-    version: Annotated[
-        str, typer.Option(help="Version to download.")
+    o2p_version: Annotated[
+        str, typer.Option(help="Version of openapi-to-plantuml to download into cache.")
     ] = OPENAPI_TO_PLANTUML_DEFAULT_VERSION,
 ):
     """Download openapi-to-plantuml *.jar file into cache."""
-    cached_file = get_openapi_to_plantuml_path(version)
+    cached_file = get_openapi_to_plantuml_path(o2p_version)
     if cached_file.is_file() is True:
-        print(f"openapi-to-plantuml version {version!r} is already in cache.")  # noqa: T201
+        print(f"openapi-to-plantuml version {o2p_version!r} is already in cache.")  # noqa: T201
         print(cached_file.resolve().as_posix())  # noqa: T201
         raise typer.Exit(0)
-    print(f"Downloading openapi-to-plantuml version {version!r}.")  # noqa: T201
-    cached_file = download_openapi_to_plantuml(version)
-    print(f"Added openapi-to-plantuml version {version!r} to cache.")  # noqa: T201
+    print(f"Downloading openapi-to-plantuml version {o2p_version!r}.")  # noqa: T201
+    cached_file = download_openapi_to_plantuml(o2p_version)
+    print(f"Added openapi-to-plantuml version {o2p_version!r} to cache.")  # noqa: T201
     print(cached_file.resolve().as_posix())  # noqa: T201
     raise typer.Exit(0)
