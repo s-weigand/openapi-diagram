@@ -5,7 +5,7 @@ FROM python:3.12-slim-bookworm
 
 # Install graphviz
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get -y install graphviz libxtst6 libxi6 libgconf-2-4 \
+  && apt-get -y install graphviz libxtst6 libxi6 libgconf-2-4 curl \
   && rm -rf /var/lib/apt/lists/*
 
 # Install JRE
