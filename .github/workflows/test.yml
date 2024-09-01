@@ -115,7 +115,7 @@ jobs:
       - name: Start container
         run: docker run -d --rm --name test-container ghcr.io/${{ github.repository_owner }}/openapi-diagram:test
       - name: Check that container is healthy
-        uses: stringbean/docker-healthcheck-action@v1
+        uses: stringbean/docker-healthcheck-action@v3
         with:
           container: test-container
           wait-time: 50
