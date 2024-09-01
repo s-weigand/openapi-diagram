@@ -1,0 +1,52 @@
+name: Publish container
+
+on:
+  push:
+    tags:
+      - v**
+  workflow_dispatch:
+    inputs:
+      tag-postfix:
+        required: false
+        type: string
+        default: ""
+        description: Image tag postfix for testing
+
+jobs:
+  build:
+    name: Publish docker image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: olegtarasov/get-tag@v2.1.3
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        id: tagName
+        with:
+          tagRegex: "v(.*)"
+
+      - name: Build and push image on tag
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: "openapi-diagram"
+          tags: ${{ steps.tagName.outputs.tag }}
+          addLatest: true
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push test image
+        if: github.event_name == 'workflow_dispatch'
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: "openapi-diagram"
+          tags: test-${{ github.event.inputs.tag-postfix }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}

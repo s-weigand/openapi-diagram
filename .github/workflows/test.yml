@@ -100,10 +100,32 @@ jobs:
           file: ./coverage.xml
           name: ${{ matrix.os }}-py${{ matrix.python-version }}
 
+  test-docker:
+    runs-on: ubuntu-latest
+    needs: [pre-commit, docs]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build test image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: "openapi-diagram"
+          tags: test
+          registry: ghcr.io
+          pushImage: false
+      - name: Start container
+        run: docker run -d --rm --name test-container ghcr.io/${{ github.repository_owner }}/openapi-diagram:test
+      - name: Check that container is healthy
+        uses: stringbean/docker-healthcheck-action@v1
+        with:
+          container: test-container
+          wait-time: 50
+          require-status: running
+          require-healthy: true
+
   deploy:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-    needs: test
+    needs: [test, test-docker]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python "3.11"
