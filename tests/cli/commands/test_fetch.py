@@ -66,3 +66,32 @@ def test_cli_fetch_multiple_files(tmp_path: Path, app_client: TestClient):
     )
     assert result.exit_code == 0, result.output
     assert len(list(output_path.glob("*.puml"))) == 19
+
+
+def test_cli_fetch_error_response(tmp_path: Path, app_client: TestClient):
+    """Test fetching a multiple files from server."""
+    runner = CliRunner()
+    base_url = app_client.base_url
+    openapi_spec = TEST_DATA / "petstore-3-0.json"
+    output_path = tmp_path
+    result = runner.invoke(
+        cli.app,
+        [
+            "fetch",
+            "--openapi-spec",
+            openapi_spec.as_posix(),
+            "--output-path",
+            output_path.as_posix(),
+            "--mode",
+            "split",
+            "--diagram-format",
+            "puml",
+            "--base-url",
+            f"{base_url}/not-an-endpoint",
+        ],
+    )
+    assert result.exit_code == 1, result.output
+    assert (
+        result.output
+        == 'Error fetching diagrams with status code 404\nContent: {"detail":"Not Found"}\n'
+    )

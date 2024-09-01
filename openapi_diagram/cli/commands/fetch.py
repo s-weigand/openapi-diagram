@@ -56,6 +56,10 @@ def fetch(
             timeout=max_timeout,
         )
     if resp.status_code != 200:
+        console.print(
+            f"[bold red]Error fetching diagrams with status code {resp.status_code}[/bold red]"
+        )
+        console.print(f"Content: {resp.content.decode()}")
         raise typer.Exit(1)
 
     with ZipFile(BytesIO(resp.content)) as zip_resp:
