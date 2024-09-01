@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+
+# But don't ignore these files
+!.dockerignore
+!Dockerfile
+!requirements_docker.txt
+!openapi_diagram/
+!pyproject.toml
+!LICENSE
+!README.md
+
+# Python cache files
+openapi_diagram/**/__pycache__/
+openapi_diagram/**/*.py[cod]
+openapi_diagram/**/*$py.class
