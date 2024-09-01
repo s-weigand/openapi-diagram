@@ -30,7 +30,10 @@
         "oderwat.indent-rainbow",
         "charliermarsh.ruff",
         "github.vscode-github-actions",
-        "nickmillerdev.pytest-fixtures"
+        "nickmillerdev.pytest-fixtures",
+        "editorconfig.editorcon",
+        "streetsidesoftware.code-spell-checker",
+        "me-dutour-mathieu.vscode-github-actions"
       ]
     }
   },
