@@ -113,7 +113,7 @@ jobs:
           registry: ghcr.io
           pushImage: false
       - name: Start container
-        run: docker run -d --rm --name test-container ghcr.io/${{ github.repository_owner }}/openapi-diagram:test
+        run: docker run -d --rm --name test-container -p 9001:9001 ghcr.io/${{ github.repository_owner }}/openapi-diagram:test
       - name: Check that container is healthy
         uses: stringbean/docker-healthcheck-action@v3
         with:
@@ -121,6 +121,16 @@ jobs:
           wait-time: 50
           require-status: running
           require-healthy: true
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install openapi-diagram
+        run: |
+          python -m pip install -U .
+      - name: Fetch files
+        run: |
+          openapi-diagram fetch -s tests/data/petstore-3-0.json -o diagrams.svg -m single -d svg -u http://localhost:9001
 
   deploy:
     runs-on: ubuntu-latest
