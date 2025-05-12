@@ -119,7 +119,7 @@ def _get_openapi_to_plantuml_download_url(version: str) -> str:
     links = soup.find_all("a")
     for link in links:
         if link["href"].endswith("with-dependencies.jar"):
-            return f'{release_url}/{link["href"]}'
+            return f"{release_url}/{link['href']}"
     msg = f"Could not find openapi-to-plantuml download link in:\n{resp.content.decode()}"
     raise RuntimeError(msg)
 
