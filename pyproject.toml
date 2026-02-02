@@ -67,14 +67,14 @@ urls.Source = "https://github.com/s-weigand/openapi-diagram"
 urls.Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
 scripts."openapi-diagram" = "openapi_diagram.cli:app"
 
-[tool.hatch.version]
-path = "openapi_diagram/__init__.py"
-
 [tool.hatch.build.targets.sdist]
 include = [ "/openapi_diagram", "/tests" ]
 
 [tool.hatch.envs.default]
 features = [ "dev" ]
+
+[tool.hatch.version]
+path = "openapi_diagram/__init__.py"
 
 [tool.docformatter]
 black = true
@@ -103,14 +103,6 @@ env = [
   "_TYPER_STANDARD_TRACEBACK=1",
 ]
 
-[tool.coverage.run]
-branch = true
-omit = [
-  'openapi_diagram/__init__.py',
-  'tests/*',
-  # comment the above line if you want to see if all tests did run
-]
-
 [tool.coverage.report]
 # Regexes for lines to exclude from consideration
 exclude_lines = [
@@ -130,6 +122,14 @@ exclude_lines = [
   'if __name__ == .__main__.:',
   # only accessible during typechecking
   'if TYPE_CHECKING:',
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+  'openapi_diagram/__init__.py',
+  'tests/*',
+  # comment the above line if you want to see if all tests did run
 ]
 
 [tool.mypy]
