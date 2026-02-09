@@ -67,14 +67,10 @@ urls.Source = "https://github.com/s-weigand/openapi-diagram"
 urls.Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
 scripts."openapi-diagram" = "openapi_diagram.cli:app"
 
-[tool.hatch.build.targets.sdist]
-include = [ "/openapi_diagram", "/tests" ]
-
-[tool.hatch.envs.default]
-features = [ "dev" ]
-
-[tool.hatch.version]
-path = "openapi_diagram/__init__.py"
+[tool.hatch]
+build.targets.sdist.include = [ "/openapi_diagram", "/tests" ]
+envs.default.features = [ "dev" ]
+version.path = "openapi_diagram/__init__.py"
 
 [tool.docformatter]
 black = true
@@ -83,52 +79,47 @@ wrap-descriptions = 99
 
 [tool.pydoclint]
 skip-checking-short-docstrings = false
-style = 'numpy'
-exclude = '^(docs/|tests?/)'
+style = "numpy"
+exclude = "^(docs/|tests?/)"
 require-return-section-when-returning-nothing = false
 allow-init-docstring = true
 
-[tool.pytest.ini_options]
-addopts = [
+[tool.pytest]
+ini_options.addopts = [
   "--cov=openapi_diagram",
   "--cov-report=term",
   "--cov-report=xml",
   "--cov-report=html",
   "--cov-config=pyproject.toml",
 ]
-env = [
+ini_options.env = [
   # prevent line wrapping in tests
   "TERMINAL_WIDTH=500",
   "_TYPER_FORCE_DISABLE_TERMINAL=1",
   "_TYPER_STANDARD_TRACEBACK=1",
 ]
 
-[tool.coverage.report]
+[tool.coverage]
 # Regexes for lines to exclude from consideration
-exclude_lines = [
+report.exclude_lines = [
   # Have to re-enable the standard pragma
-  'pragma: no cover',
-
+  "pragma: no cover",
   # Don't complain about missing debug-only code:
-  'def __repr__',
-  'if self\.debug',
-
+  "def __repr__",
+  "if self\\.debug",
   # Don't complain if tests don't hit defensive assertion code:
-  'raise AssertionError',
-  'raise NotImplementedError',
-
+  "raise AssertionError",
+  "raise NotImplementedError",
   # Don't complain if non-runnable code isn't run:
-  'if 0:',
-  'if __name__ == .__main__.:',
+  "if 0:",
+  "if __name__ == .__main__.:",
   # only accessible during typechecking
-  'if TYPE_CHECKING:',
+  "if TYPE_CHECKING:",
 ]
-
-[tool.coverage.run]
-branch = true
-omit = [
-  'openapi_diagram/__init__.py',
-  'tests/*',
+run.branch = true
+run.omit = [
+  "openapi_diagram/__init__.py",
+  "tests/*",
   # comment the above line if you want to see if all tests did run
 ]
 
