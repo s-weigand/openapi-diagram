@@ -100,27 +100,27 @@ ini_options.env = [
 ]
 
 [tool.coverage]
-# Regexes for lines to exclude from consideration
-report.exclude_lines = [
-  # Have to re-enable the standard pragma
-  "pragma: no cover",
-  # Don't complain about missing debug-only code:
-  "def __repr__",
-  "if self\\.debug",
-  # Don't complain if tests don't hit defensive assertion code:
-  "raise AssertionError",
-  "raise NotImplementedError",
-  # Don't complain if non-runnable code isn't run:
-  "if 0:",
-  "if __name__ == .__main__.:",
-  # only accessible during typechecking
-  "if TYPE_CHECKING:",
-]
 run.branch = true
 run.omit = [
   "openapi_diagram/__init__.py",
   "tests/*",
   # comment the above line if you want to see if all tests did run
+]
+# Regexes for lines to exclude from consideration
+report.exclude_lines = [
+  # Don't complain about missing debug-only code:
+  "def __repr__",
+  "if __name__ == .__main__.:",
+  # Don't complain if non-runnable code isn't run:
+  "if 0:",
+  "if self\\.debug",
+  # only accessible during typechecking
+  "if TYPE_CHECKING:",
+  # Have to re-enable the standard pragma
+  "pragma: no cover",
+  # Don't complain if tests don't hit defensive assertion code:
+  "raise AssertionError",
+  "raise NotImplementedError",
 ]
 
 [tool.mypy]
