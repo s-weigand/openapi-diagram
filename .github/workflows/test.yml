@@ -136,12 +136,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.14"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
       - name: Install openapi-diagram
         run: |
           uv sync --locked --no-dev
       - name: Fetch files
         run: |
-          openapi-diagram fetch -s tests/data/petstore-3-0.json -o diagrams.svg -m single -d svg -u http://localhost:9001
+          uv run openapi-diagram fetch -s tests/data/petstore-3-0.json -o diagrams.svg -m single -d svg -u http://localhost:9001
 
   deploy:
     runs-on: ubuntu-latest

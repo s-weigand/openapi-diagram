@@ -8,6 +8,7 @@ from hashlib import md5
 from pathlib import Path
 from shutil import which
 from typing import Literal
+from typing import TypeAlias
 from typing import cast
 from warnings import warn
 
@@ -24,11 +25,11 @@ OPENAPI_TO_PLANTUML_MAVEN_URL = (
 )
 
 
-type OpenapiToPlantumlModes = Literal["single", "split"]
+OpenapiToPlantumlModes: TypeAlias = Literal["single", "split"]  # noqa: UP040
 # Commented out formats are format that are technically supported by openapi-to-plantuml
 # But tests crash in the dev container
 # Ref. https://github.com/davidmoten/openapi-to-plantuml/blob/f00c03f7d7687e2b6d74fb726c02515c7197ebf0/src/main/java/com/github/davidmoten/oas3/puml/ConverterMain.java#L39
-type OpenapiToPlantumlFormats = Literal[
+OpenapiToPlantumlFormats: TypeAlias = Literal[  # noqa: UP040
     "puml",
     "eps",
     "eps_text",
