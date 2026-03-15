@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 @contextmanager
-def monkeypatch_all(monkeypatch: pytest.MonkeyPatch, name: str, value: Any):
+def monkeypatch_all(monkeypatch: pytest.MonkeyPatch, name: str, value: Any):  # noqa: ANN401
     """Context to monkeypatch all usages across modules."""
     with monkeypatch.context() as m:
         for module_name, module in sys.modules.items():

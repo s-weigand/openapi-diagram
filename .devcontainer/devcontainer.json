@@ -17,7 +17,7 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "uv tool install pre-commit --with pre-commit-uv --force-reinstall --force -p 3.12 && uv sync --all-extras -p 3.12",
+  "postCreateCommand": "uv tool install pre-commit --with pre-commit-uv --force-reinstall --force -p 3.14 && uv tool install rust-just && uv sync --all-extras -p 3.14",
 
   // Configure tool-specific properties.
   "customizations": {

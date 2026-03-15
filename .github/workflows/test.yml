@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: 3.14
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
 
@@ -28,45 +28,55 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-      - name: Set up Python "3.11"
+      - name: Set up Python 3.14
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+      - name: Install just
+        run: |
+          uv tool install rust-just
       - name: Install dependencies
         run: |
-          pip install .[docs]
+          uv sync --group docs
       - name: Show installed dependencies
         run: |
-          pip freeze
+          uv tree
       - name: Build docs
-        run: make --directory=docs clean html
+        run: just docs/html
 
   docs-link:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-      - name: Set up Python "3.11"
+      - name: Set up Python 3.14
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+      - name: Install just
+        run: |
+          uv tool install rust-just
       - name: Install dependencies
         run: |
-          pip install .[docs]
+          uv sync --group docs
       - name: Show installed dependencies
         continue-on-error: true
         run: |
-          pip freeze
+          uv tree
       - name: Build docs
-        run: make --directory=docs clean linkcheck
+        run: just docs/linkcheck
 
   test:
     runs-on: ${{ matrix.os }}
     needs: [pre-commit, docs]
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.11", "3.12"]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        python-version: ["3.14"]
 
     steps:
       - name: Check out repo
@@ -86,18 +96,19 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
       - name: Install dependencies
         run: |
-          python -m pip install -U ".[test]"
-          python -m pip install -r requirements_pinned.txt
+          uv sync --group test
       - name: Run tests
         run: |
-          python -m pytest --cov=./ --cov-report term --cov-report xml --cov-config .coveragerc tests
+          uv run pytest --cov=./ --cov-report term --cov-report xml --cov-config .coveragerc tests
       - name: Codecov Upload
         continue-on-error: true
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
-          file: ./coverage.xml
+          files: ./coverage.xml
           name: ${{ matrix.os }}-py${{ matrix.python-version }}
 
   test-docker:
@@ -124,10 +135,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.14"
       - name: Install openapi-diagram
         run: |
-          python -m pip install -U .
+          uv tool install .
       - name: Fetch files
         run: |
           openapi-diagram fetch -s tests/data/petstore-3-0.json -o diagrams.svg -m single -d svg -u http://localhost:9001
@@ -138,18 +149,18 @@ jobs:
     needs: [test, test-docker]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python "3.11"
+      - name: Set up Python 3.14
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: python -m pip install -U hatch
+          python-version: "3.14"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
 
       - name: Build dist
-        run: hatch build
+        run: uv build
 
       - name: Publish package
-        uses: pypa/gh-action-pypi-publish@v1.9.0
+        uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
           print-hash: true
+          attestations: true

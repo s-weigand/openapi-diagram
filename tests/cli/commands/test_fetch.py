@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from typer.testing import CliRunner
 
 from openapi_diagram import cli
+from tests import NUMBER_OF_ENDPOINTS
 from tests import TEST_DATA
 
 if TYPE_CHECKING:
@@ -65,7 +66,7 @@ def test_cli_fetch_multiple_files(tmp_path: Path, app_client: TestClient):
         ],
     )
     assert result.exit_code == 0, result.output
-    assert len(list(output_path.glob("*.puml"))) == 19
+    assert len(list(output_path.glob("*.puml"))) == NUMBER_OF_ENDPOINTS
 
 
 def test_cli_fetch_error_response(tmp_path: Path, app_client: TestClient):

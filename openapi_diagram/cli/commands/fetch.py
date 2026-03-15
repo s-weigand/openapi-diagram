@@ -17,7 +17,7 @@ from openapi_diagram.cli.commands import OutputPath  # noqa: TC001
 from openapi_diagram.server.models.request_models import CreateDiagram
 
 
-def fetch(
+def fetch(  # noqa: PLR0913
     openapi_spec: OpenapiSpec,
     output_path: OutputPath,
     mode: Mode,
@@ -36,11 +36,11 @@ def fetch(
         typer.Option(
             "--max-timeout",
             "-t",
-            help="Maximum time to wai for server response.",
+            help="Maximum time to wait for server response.",
             envvar="OPENAPI_DIAGRAM_FETCH_TIMEOUT",
         ),
     ] = 30,
-):
+) -> None:
     """Fetch diagram from openapi-diagram server."""
     console = Console()
     request_data = CreateDiagram(
@@ -55,7 +55,7 @@ def fetch(
             json=request_data.model_dump(mode="json", by_alias=True),
             timeout=max_timeout,
         )
-    if resp.status_code != 200:
+    if resp.status_code != 200:  # noqa: PLR2004
         console.print(
             f"[bold red]Error fetching diagrams with status code {resp.status_code}[/bold red]"
         )

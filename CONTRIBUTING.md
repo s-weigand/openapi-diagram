@@ -56,21 +56,14 @@ Ready to contribute? Here's how to set up `openapi_diagram` for local developmen
    $ git clone git@github.com:your_name_here/openapi_diagram.git
    ```
 
-3. Install your local copy into a virtualenv. Assuming you have hatch installed (`pipx install hatch`),
-   this is how you set up your fork for local development:
+3. Install the `pre-commit` hooks (to install `pre-commit` run `uv tool install pre-commit --with pre-commit-uv`):
 
    ```bash
    $ cd openapi-diagram/
-   $ hatch shell
-   ```
-
-4. Install the `pre-commit` hooks (to install `pre-commit` run `pipx install pre-commit`):
-
-   ```bash
    $ pre-commit install
    ```
 
-5. Create a branch for local development:
+4. Create a branch for local development:
 
    ```bash
    $ git checkout -b name-of-your-bugfix-or-feature
@@ -78,15 +71,15 @@ Ready to contribute? Here's how to set up `openapi_diagram` for local developmen
 
    Now you can make your changes locally.
 
-6. When you're done making changes, check that your changes pass the tests:
+5. When you're done making changes, check that your changes pass the tests:
 
    ```bash
-   $ pytest
+   $ uv run pytest
    ```
 
-   To get flake8 and tox, just pip install them into your virtualenv.
+   To get flake8 and tox, just install them with uv.
 
-7. Commit your changes and push your branch to GitHub:
+6. Commit your changes and push your branch to GitHub:
 
    ```bash
    $ git add .
@@ -94,7 +87,7 @@ Ready to contribute? Here's how to set up `openapi_diagram` for local developmen
    $ git push origin name-of-your-bugfix-or-feature
    ```
 
-8. Submit a pull request through the GitHub website.
+7. Submit a pull request through the GitHub website.
 
 ## Pull Request Guidelines
 
@@ -104,7 +97,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.md.
-3. The pull request should work for Python 3.11 and 3.12. Check
+3. The pull request should work for Python 3.14. Check
    https://github.com/s-weigand/openapi-diagram/actions
    and make sure that the tests pass for all supported Python versions.
 
@@ -112,5 +105,5 @@ Before you submit a pull request, check that it meets these guidelines:
 > To run a subset of tests:
 
 > ```bash
-> $ pytest tests.test_openapi_diagram
+> $ uv run pytest tests.test_openapi_diagram
 > ```

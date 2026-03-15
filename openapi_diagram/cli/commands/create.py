@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Annotated
+from typing import Never
 
 import typer
 
@@ -20,7 +21,7 @@ def create(
     mode: Mode,
     diagram_format: DiagramFormat,
     version: Annotated[str, typer.Option()] = OPENAPI_TO_PLANTUML_DEFAULT_VERSION,
-):
+) -> Never:
     """Create diagram/-s from openapi spec file."""
     run_openapi_to_plantuml(
         openapi_spec,

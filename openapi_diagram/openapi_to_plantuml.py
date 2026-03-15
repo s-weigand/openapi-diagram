@@ -8,7 +8,6 @@ from hashlib import md5
 from pathlib import Path
 from shutil import which
 from typing import Literal
-from typing import TypeAlias
 from typing import cast
 from warnings import warn
 
@@ -25,11 +24,11 @@ OPENAPI_TO_PLANTUML_MAVEN_URL = (
 )
 
 
-OpenapiToPlantumlModes: TypeAlias = Literal["single", "split"]
+type OpenapiToPlantumlModes = Literal["single", "split"]
 # Commented out formats are format that are technically supported by openapi-to-plantuml
 # But tests crash in the dev container
 # Ref. https://github.com/davidmoten/openapi-to-plantuml/blob/f00c03f7d7687e2b6d74fb726c02515c7197ebf0/src/main/java/com/github/davidmoten/oas3/puml/ConverterMain.java#L39
-OpenapiToPlantumlFormats: TypeAlias = Literal[
+type OpenapiToPlantumlFormats = Literal[
     "puml",
     "eps",
     "eps_text",
@@ -163,7 +162,7 @@ def download_openapi_to_plantuml(version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERS
     download_url = _get_openapi_to_plantuml_download_url(version)
     download_response = httpx.get(download_url, follow_redirects=True)
     expected_md5_hash = httpx.get(f"{download_url}.md5", follow_redirects=True)
-    if md5(download_response.content).hexdigest() != expected_md5_hash.text:
+    if md5(download_response.content).hexdigest() != expected_md5_hash.text:  # noqa: S324
         msg = "Downloaded openapi-to-plantuml jar has invalid hash."
         raise DownloadVerificationError(msg)
     jar_path.write_bytes(download_response.content)
@@ -180,7 +179,7 @@ def _find_java_executable() -> Path:
 
     Raises
     ------
-    MissingDependecyError
+    MissingDependencyError
         If no java executable could be found via JAVA_HOME or on the path.
     """
     java_home = os.getenv("JAVA_HOME", None)
@@ -247,7 +246,7 @@ def run_openapi_to_plantuml(
     if mode == "single":
         output_path.parent.mkdir(parents=True, exist_ok=True)
     with openapi_3_dot_1_compat(openapi_spec) as spec_file:
-        subprocess.run(
+        subprocess.run(  # noqa: S603
             [
                 java_executable.resolve().as_posix(),
                 "-jar",

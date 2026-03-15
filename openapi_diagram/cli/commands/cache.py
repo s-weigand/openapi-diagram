@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Annotated
+from typing import Never
 
 import typer
 
@@ -31,7 +32,7 @@ def _remove_cache_file(file_path: Path) -> None:
 
 
 @cache_app.command()
-def show():
+def show() -> Never:
     """Show cached openapi-to-plantuml *.jar files."""
     for cached_file in CACHE_DIR.glob("*.jar"):
         print(cached_file.resolve().as_posix())  # noqa: T201
@@ -49,7 +50,7 @@ def remove(
             ),
         ),
     ],
-):
+) -> Never:
     """Remove files openapi-to-plantuml *.jar from caches."""
     if o2p_version == "all":
         for cached_file in CACHE_DIR.glob("*.jar"):
@@ -68,7 +69,7 @@ def get(
     o2p_version: Annotated[
         str, typer.Option(help="Version of openapi-to-plantuml to download into cache.")
     ] = OPENAPI_TO_PLANTUML_DEFAULT_VERSION,
-):
+) -> Never:
     """Download openapi-to-plantuml *.jar file into cache."""
     cached_file = get_openapi_to_plantuml_path(o2p_version)
     if cached_file.is_file() is True:

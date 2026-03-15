@@ -9,7 +9,7 @@ from typing import Any
 import pytest
 import yaml
 
-from openapi_diagram.utils import UnsopportFileTypeError
+from openapi_diagram.utils import UnsupportedFileTypeError
 from openapi_diagram.utils import openapi_3_dot_1_compat
 from tests import TEST_DATA
 
@@ -49,7 +49,7 @@ def test_openapi_3_dot_1_compat_no_op_yaml():
 def test_openapi_3_dot_1_compat_file_type_not_supported():
     """Yaml content is equivalent to json one."""
     with (
-        pytest.raises(UnsopportFileTypeError) as execinfo,
+        pytest.raises(UnsupportedFileTypeError) as execinfo,
         openapi_3_dot_1_compat(Path("petstore-3-0.txt")),
     ):
         pass

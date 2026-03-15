@@ -12,3 +12,5 @@ RUN_SLOW_TEST = (
     os.getenv("CI", None) is not None
     and os.getenv("OPENAPI_DIAGRAM__RUN_SLOW_TESTS", None) is not None
 )
+
+NUMBER_OF_ENDPOINTS = 19

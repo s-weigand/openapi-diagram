@@ -14,14 +14,14 @@ import yaml
 if TYPE_CHECKING:
     from collections.abc import Generator
 
-Json = dict[str | Literal["anyOf", "type"], "Json"] | list["Json"] | str | bool
+Json = dict[str | Literal["anyOf", "type"], "Json"] | list["Json"] | str | bool  # noqa: PYI051
 
 
-class UnsopportFileTypeError(ValueError):
+class UnsupportedFileTypeError(ValueError):
     """Error raised when a file type isn't supported."""
 
 
-def convert_3_dot_1_to_3_dot_0(json: dict[str, Json]):  # noqa: C901, DOC101, DOC109, DOC103
+def convert_3_dot_1_to_3_dot_0(json: dict[str, Json]) -> None:  # noqa: C901, DOC101, DOC109, DOC103
     """Attempt to convert version 3.1.0 of some openAPI json into 3.0.3.
 
     Ref.: https://github.com/tiangolo/fastapi/discussions/9789#discussioncomment-8629746
@@ -44,7 +44,7 @@ def convert_3_dot_1_to_3_dot_0(json: dict[str, Json]):  # noqa: C901, DOC101, DO
     """
     json["openapi"] = "3.0.3"
 
-    def inner(yaml_dict: Json):
+    def inner(yaml_dict: Json) -> None:
         if isinstance(yaml_dict, dict):
             if "anyOf" in yaml_dict and isinstance((anyOf := yaml_dict["anyOf"]), list):  # noqa: N806
                 for i, item in enumerate(anyOf):
@@ -66,7 +66,7 @@ def convert_3_dot_1_to_3_dot_0(json: dict[str, Json]):  # noqa: C901, DOC101, DO
 
 
 @contextmanager
-def openapi_3_dot_1_compat(spec_file: Path) -> Generator[Path, None, None]:
+def openapi_3_dot_1_compat(spec_file: Path) -> Generator[Path]:  # noqa: DOC404
     """Context manager to downgrade openapi 3.1 specs to 3.0 specs.
 
     Parameters
@@ -81,8 +81,8 @@ def openapi_3_dot_1_compat(spec_file: Path) -> Generator[Path, None, None]:
 
     Raises
     ------
-    ValueError
-        If file format is not supported.
+    UnsupportedFileTypeError
+        If ``spec_file`` file format is not supported.
     """
     if spec_file.suffix == ".json":
         spec_data = json.loads(spec_file.read_text())
@@ -90,7 +90,7 @@ def openapi_3_dot_1_compat(spec_file: Path) -> Generator[Path, None, None]:
         spec_data = yaml.safe_load(spec_file.read_text())
     else:
         msg = f"File type: *{spec_file.suffix} is not supported."
-        raise UnsopportFileTypeError(msg)
+        raise UnsupportedFileTypeError(msg)
     with TemporaryDirectory() as tmp_dir:
         tmp_file = Path(tmp_dir) / "openapi_spec.json"
         if spec_data["openapi"].startswith("3.1"):

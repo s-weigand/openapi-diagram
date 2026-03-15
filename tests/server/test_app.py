@@ -6,6 +6,9 @@ from io import BytesIO
 from typing import TYPE_CHECKING
 from zipfile import ZipFile
 
+from fastapi import status
+
+from tests import NUMBER_OF_ENDPOINTS
 from tests import TEST_DATA
 
 if TYPE_CHECKING:
@@ -15,7 +18,7 @@ if TYPE_CHECKING:
 def test_healthy(app_client: TestClient):
     """Always return OK status."""
     resp = app_client.get("/healthy")
-    assert resp.status_code == 200
+    assert resp.status_code == status.HTTP_200_OK
     assert resp.json() == {"status": "OK"}
 
 
@@ -32,7 +35,7 @@ def test_create_single_diagram(app_client: TestClient):
             "diagramFormat": "puml",
         },
     )
-    assert resp.status_code == 200
+    assert resp.status_code == status.HTTP_200_OK
     with ZipFile(BytesIO(resp.content)) as zip_resp:
         assert zip_resp.read("petstore-3-0.puml").rstrip(b"\n") == expected.read_bytes().rstrip(
             b"\n"
@@ -56,7 +59,7 @@ def test_create_single_diagram_file_path(app_client: TestClient):
             "diagramFormat": "puml",
         },
     )
-    assert resp.status_code == 200
+    assert resp.status_code == status.HTTP_200_OK
     with ZipFile(BytesIO(resp.content)) as zip_resp:
         assert zip_resp.read("petstore-3-0.puml").rstrip(b"\n") == expected.read_bytes().rstrip(
             b"\n"
@@ -75,6 +78,6 @@ def test_create_multiple_diagrams(app_client: TestClient):
             "diagramFormat": "puml",
         },
     )
-    assert resp.status_code == 200
+    assert resp.status_code == status.HTTP_200_OK
     with ZipFile(BytesIO(resp.content)) as zip_resp:
-        assert len(zip_resp.namelist()) == 19, zip_resp.namelist()
+        assert len(zip_resp.namelist()) == NUMBER_OF_ENDPOINTS, zip_resp.namelist()

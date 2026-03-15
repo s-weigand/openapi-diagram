@@ -22,6 +22,7 @@ from openapi_diagram.openapi_to_plantuml import _get_openapi_to_plantuml_downloa
 from openapi_diagram.openapi_to_plantuml import download_openapi_to_plantuml
 from openapi_diagram.openapi_to_plantuml import get_openapi_to_plantuml_path
 from openapi_diagram.openapi_to_plantuml import run_openapi_to_plantuml
+from tests import NUMBER_OF_ENDPOINTS
 from tests import RUN_SLOW_TEST
 from tests import TEST_DATA
 
@@ -174,7 +175,7 @@ def test_run_openapi_to_plantuml_split(tmp_path: Path):
     openapi_spec = TEST_DATA / "petstore-3-0.json"
     output = tmp_path
     result = run_openapi_to_plantuml(openapi_spec, output, "split", "svg")
-    assert len(result) == 19
+    assert len(result) == NUMBER_OF_ENDPOINTS
 
 
 @pytest.mark.skipif(
@@ -189,7 +190,7 @@ def test_run_openapi_to_plantuml_output_format(
     openapi_spec = TEST_DATA / "petstore-3-0.json"
     output = tmp_path / "result"
     result = run_openapi_to_plantuml(openapi_spec, output, "split", output_format)
-    assert len(result) == 19
+    assert len(result) == NUMBER_OF_ENDPOINTS
     assert (output / f"deleteOrder.{output_format}") in result
 
 

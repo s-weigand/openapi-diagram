@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import typer
-from rich import print
+from rich import print  # noqa: A004
 
 from openapi_diagram import __version__
 from openapi_diagram.cli.commands.cache import cache_app
@@ -12,7 +12,7 @@ from openapi_diagram.cli.commands.fetch import fetch
 from openapi_diagram.cli.commands.serve import create_serve_callback
 
 
-def version_callback(value: bool):
+def version_callback(value: bool) -> None:
     """Implement showing version to show version."""
     if value:
         print(
@@ -29,7 +29,7 @@ app = typer.Typer(name="openapi-diagram", rich_markup_mode="rich", no_args_is_he
 def show_version(
     _ctx: typer.Context,
     _version: bool = typer.Option(None, "--version", "-V", callback=version_callback),
-):
+) -> None:
     """Show version when using `--version` flag."""
 
 
