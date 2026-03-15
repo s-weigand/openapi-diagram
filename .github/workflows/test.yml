@@ -39,7 +39,7 @@ jobs:
           uv tool install rust-just
       - name: Install dependencies
         run: |
-          uv sync --group docs
+          uv sync --group docs --locked
       - name: Show installed dependencies
         run: |
           uv tree
@@ -62,7 +62,7 @@ jobs:
           uv tool install rust-just
       - name: Install dependencies
         run: |
-          uv sync --group docs
+          uv sync --group docs --locked
       - name: Show installed dependencies
         continue-on-error: true
         run: |
@@ -100,7 +100,7 @@ jobs:
         uses: astral-sh/setup-uv@v4
       - name: Install dependencies
         run: |
-          uv sync --group test
+          uv sync --group test --locked
       - name: Run tests
         run: |
           uv run pytest --cov=./ --cov-report term --cov-report xml --cov-config .coveragerc tests
@@ -138,7 +138,7 @@ jobs:
           python-version: "3.14"
       - name: Install openapi-diagram
         run: |
-          uv tool install .
+          uv sync --locked --no-dev
       - name: Fetch files
         run: |
           openapi-diagram fetch -s tests/data/petstore-3-0.json -o diagrams.svg -m single -d svg -u http://localhost:9001
