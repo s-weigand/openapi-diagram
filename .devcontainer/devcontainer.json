@@ -9,16 +9,15 @@
       "version": "17",
       "jdkDistro": "tem"
     },
-    "ghcr.io/devcontainers-contrib/features/ruff:1": {},
-    "ghcr.io/devcontainers-contrib/features/typescript:2": {},
-    "ghcr.io/prulloac/devcontainer-features/pre-commit:1": {}
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers-extra/features/uv:1": {}
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "pip3 install -e .[dev]",
+  "postCreateCommand": "uv tool install pre-commit --with pre-commit-uv --force-reinstall --force -p 3.12 && uv sync --all-extras -p 3.12",
 
   // Configure tool-specific properties.
   "customizations": {
