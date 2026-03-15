@@ -7,10 +7,10 @@ from typing import Annotated
 import typer
 
 from openapi_diagram import OPENAPI_TO_PLANTUML_DEFAULT_VERSION
-from openapi_diagram.cli.commands import DiagramFormat  # noqa: TCH001
-from openapi_diagram.cli.commands import Mode  # noqa: TCH001
-from openapi_diagram.cli.commands import OpenapiSpec  # noqa: TCH001
-from openapi_diagram.cli.commands import OutputPath  # noqa: TCH001
+from openapi_diagram.cli.commands import DiagramFormat  # noqa: TC001
+from openapi_diagram.cli.commands import Mode  # noqa: TC001
+from openapi_diagram.cli.commands import OpenapiSpec  # noqa: TC001
+from openapi_diagram.cli.commands import OutputPath  # noqa: TC001
 from openapi_diagram.openapi_to_plantuml import run_openapi_to_plantuml
 
 

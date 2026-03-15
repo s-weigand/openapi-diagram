@@ -10,10 +10,10 @@ import httpx
 import typer
 from rich.console import Console
 
-from openapi_diagram.cli.commands import DiagramFormat  # noqa: TCH001
-from openapi_diagram.cli.commands import Mode  # noqa: TCH001
-from openapi_diagram.cli.commands import OpenapiSpec  # noqa: TCH001
-from openapi_diagram.cli.commands import OutputPath  # noqa: TCH001
+from openapi_diagram.cli.commands import DiagramFormat  # noqa: TC001
+from openapi_diagram.cli.commands import Mode  # noqa: TC001
+from openapi_diagram.cli.commands import OpenapiSpec  # noqa: TC001
+from openapi_diagram.cli.commands import OutputPath  # noqa: TC001
 from openapi_diagram.server.models.request_models import CreateDiagram
 
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path  # noqa: TCH003
+from pathlib import Path  # noqa: TC003
 
 from pydantic import BaseModel
 from pydantic import ConfigDict
@@ -10,8 +10,8 @@ from pydantic import field_validator
 from pydantic.alias_generators import to_camel
 
 from openapi_diagram import SUPPORTED_SPEC_FILE_FORMATS
-from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlFormats  # noqa: TCH001
-from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlModes  # noqa: TCH001
+from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlFormats  # noqa: TC001
+from openapi_diagram.openapi_to_plantuml import OpenapiToPlantumlModes  # noqa: TC001
 
 
 class CreateDiagram(BaseModel):

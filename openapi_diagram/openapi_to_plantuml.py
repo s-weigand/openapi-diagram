@@ -119,7 +119,7 @@ def _get_openapi_to_plantuml_download_url(version: str) -> str:
     links = soup.find_all("a")
     for link in links:
         if link["href"].endswith("with-dependencies.jar"):
-            return f'{release_url}/{link["href"]}'
+            return f"{release_url}/{link['href']}"
     msg = f"Could not find openapi-to-plantuml download link in:\n{resp.content.decode()}"
     raise RuntimeError(msg)
 
@@ -230,9 +230,11 @@ def run_openapi_to_plantuml(
     MissingDependecyError
         If the java installation can not be found.
     """
-    mode = cast(OpenapiToPlantumlModes, TypeAdapter(OpenapiToPlantumlModes).validate_python(mode))
+    mode = cast(
+        "OpenapiToPlantumlModes", TypeAdapter(OpenapiToPlantumlModes).validate_python(mode)
+    )
     diagram_format = cast(
-        OpenapiToPlantumlFormats,
+        "OpenapiToPlantumlFormats",
         TypeAdapter(OpenapiToPlantumlFormats).validate_python(diagram_format),
     )
     if which("dot") is None:

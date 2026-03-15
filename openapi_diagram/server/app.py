@@ -14,7 +14,7 @@ from fastapi.responses import StreamingResponse
 
 from openapi_diagram.openapi_to_plantuml import download_openapi_to_plantuml
 from openapi_diagram.openapi_to_plantuml import run_openapi_to_plantuml
-from openapi_diagram.server.models.request_models import CreateDiagram  # noqa: TCH001
+from openapi_diagram.server.models.request_models import CreateDiagram  # noqa: TC001
 
 
 @asynccontextmanager
