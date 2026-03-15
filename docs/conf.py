@@ -53,6 +53,7 @@ source_suffix = ['.rst', '.md']
 linkcheck_ignore = [
     r"https://github\.com/s-weigand/openapi-diagram/actions",
     r"https://github\.com/s-weigand/openapi-diagram/workflows/Tests/badge\.svg",
+    r"http://docs\.python-guide\.org/en/latest/starting/installation",
 ]
 
 # The master toctree document.
