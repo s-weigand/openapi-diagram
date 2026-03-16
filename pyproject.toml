@@ -65,7 +65,7 @@ urls.Documentation = "https://openapi-diagram.readthedocs.io"
 urls.Homepage = "https://github.com/s-weigand/openapi-diagram"
 urls.Source = "https://github.com/s-weigand/openapi-diagram"
 urls.Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
-scripts."openapi-diagram" = "openapi_diagram.cli:app"
+scripts.openapi-diagram = "openapi_diagram.cli:app"
 
 [tool.hatch]
 build.targets.sdist.include = [ "/openapi_diagram", "/tests" ]
@@ -134,7 +134,6 @@ strict_equality = true
 python_version = "3.11"
 
 # For now this is not used because pydoclint does not support toml when used with flake8
-
 [tool.interrogate]
 exclude = [ "docs", "tests" ]
 ignore-nested-functions = true
