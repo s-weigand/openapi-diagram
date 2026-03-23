@@ -84,6 +84,16 @@ exclude = "^(docs/|tests?/)"
 require-return-section-when-returning-nothing = false
 allow-init-docstring = true
 
+[tool.mypy]
+exclude = "^docs/"
+ignore_missing_imports = true
+scripts_are_modules = true
+show_error_codes = true
+warn_unused_configs = true
+warn_unused_ignores = true
+strict_equality = true
+python_version = "3.11"
+
 [tool.pytest]
 ini_options.addopts = [
   "--cov=openapi_diagram",
@@ -122,16 +132,6 @@ report.exclude_lines = [
   "raise AssertionError",
   "raise NotImplementedError",
 ]
-
-[tool.mypy]
-exclude = "^docs/"
-ignore_missing_imports = true
-scripts_are_modules = true
-show_error_codes = true
-warn_unused_configs = true
-warn_unused_ignores = true
-strict_equality = true
-python_version = "3.11"
 
 # For now this is not used because pydoclint does not support toml when used with flake8
 [tool.interrogate]
