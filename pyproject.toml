@@ -68,9 +68,9 @@ urls.Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
 scripts.openapi-diagram = "openapi_diagram.cli:app"
 
 [tool.hatch]
+version.path = "openapi_diagram/__init__.py"
 build.targets.sdist.include = [ "/openapi_diagram", "/tests" ]
 envs.default.features = [ "dev" ]
-version.path = "openapi_diagram/__init__.py"
 
 [tool.docformatter]
 black = true
@@ -84,15 +84,22 @@ exclude = "^(docs/|tests?/)"
 require-return-section-when-returning-nothing = false
 allow-init-docstring = true
 
+# For now this is not used because pydoclint does not support toml when used with flake8
+[tool.interrogate]
+fail-under = 100
+ignore-init-module = true
+ignore-nested-functions = true
+exclude = [ "docs", "tests" ]
+
 [tool.mypy]
 exclude = "^docs/"
 ignore_missing_imports = true
-scripts_are_modules = true
-show_error_codes = true
-warn_unused_configs = true
+python_version = "3.11"
 warn_unused_ignores = true
 strict_equality = true
-python_version = "3.11"
+scripts_are_modules = true
+warn_unused_configs = true
+show_error_codes = true
 
 [tool.pytest]
 ini_options.addopts = [
@@ -132,10 +139,3 @@ report.exclude_lines = [
   "raise AssertionError",
   "raise NotImplementedError",
 ]
-
-# For now this is not used because pydoclint does not support toml when used with flake8
-[tool.interrogate]
-exclude = [ "docs", "tests" ]
-ignore-nested-functions = true
-ignore-init-module = true
-fail-under = 100
