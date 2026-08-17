@@ -117,12 +117,12 @@ ini_options.env = [
 ]
 
 [tool.coverage]
-run.branch = true
 run.omit = [
   "openapi_diagram/__init__.py",
   "tests/*",
   # comment the above line if you want to see if all tests did run
 ]
+run.branch = true
 # Regexes for lines to exclude from consideration
 report.exclude_lines = [
   # Don't complain about missing debug-only code:
