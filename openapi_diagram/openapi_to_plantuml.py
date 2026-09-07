@@ -73,15 +73,9 @@ class MissingDependecyWarning(UserWarning):
 def _get_latest_openapi_to_plantuml_version() -> str:
     """Get latest `openapi-to-plantuml` version on maven repo.
 
-    Returns
-    -------
-    str
-        Version string of latest `openapi-to-plantuml` release.
+    Returns ------- str     Version string of latest `openapi-to-plantuml` release.
 
-    Raises
-    ------
-    RuntimeError
-        If version could not be found.
+    Raises ------ RuntimeError     If version could not be found.
     """
     resp = httpx.get(f"{OPENAPI_TO_PLANTUML_MAVEN_URL}/maven-metadata.xml", follow_redirects=True)
     soup = BeautifulSoup(resp.content, features="xml")
@@ -119,7 +113,7 @@ def _get_openapi_to_plantuml_download_url(version: str) -> str:
     links = soup.find_all("a")
     for link in links:
         if link["href"].endswith("with-dependencies.jar"):
-            return f'{release_url}/{link["href"]}'
+            return f"{release_url}/{link['href']}"
     msg = f"Could not find openapi-to-plantuml download link in:\n{resp.content.decode()}"
     raise RuntimeError(msg)
 
@@ -173,15 +167,10 @@ def download_openapi_to_plantuml(version: str = OPENAPI_TO_PLANTUML_DEFAULT_VERS
 def _find_java_executable() -> Path:
     """Find java executable using lookup order ``JAVA_HOME``, ``PATH``.
 
-    Returns
-    -------
-    Path
-        Path to the java executable.
+    Returns ------- Path     Path to the java executable.
 
-    Raises
-    ------
-    MissingDependecyError
-        If no java executable could be found via JAVA_HOME or on the path.
+    Raises ------ MissingDependecyError     If no java executable could be found via JAVA_HOME or
+    on the path.
     """
     java_home = os.getenv("JAVA_HOME", None)
     if java_home is not None:

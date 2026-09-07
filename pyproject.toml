@@ -24,6 +24,8 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dynamic = [
   "version",
@@ -63,16 +65,12 @@ urls.Documentation = "https://openapi-diagram.readthedocs.io"
 urls.Homepage = "https://github.com/s-weigand/openapi-diagram"
 urls.Source = "https://github.com/s-weigand/openapi-diagram"
 urls.Tracker = "https://github.com/s-weigand/openapi-diagram/issues"
-scripts."openapi-diagram" = "openapi_diagram.cli:app"
+scripts.openapi-diagram = "openapi_diagram.cli:app"
 
-[tool.hatch.version]
-path = "openapi_diagram/__init__.py"
-
-[tool.hatch.build.targets.sdist]
-include = [ "/openapi_diagram", "/tests" ]
-
-[tool.hatch.envs.default]
-features = [ "dev" ]
+[tool.hatch]
+version.path = "openapi_diagram/__init__.py"
+build.targets.sdist.include = [ "/openapi_diagram", "/tests" ]
+envs.default.features = [ "dev" ]
 
 [tool.docformatter]
 black = true
@@ -81,69 +79,63 @@ wrap-descriptions = 99
 
 [tool.pydoclint]
 skip-checking-short-docstrings = false
-style = 'numpy'
-exclude = '^(docs/|tests?/)'
+style = "numpy"
+exclude = "^(docs/|tests?/)"
 require-return-section-when-returning-nothing = false
 allow-init-docstring = true
 
-[tool.pytest.ini_options]
-addopts = [
+# For now this is not used because pydoclint does not support toml when used with flake8
+[tool.interrogate]
+fail-under = 100
+ignore-init-module = true
+ignore-nested-functions = true
+exclude = [ "docs", "tests" ]
+
+[tool.mypy]
+exclude = "^docs/"
+ignore_missing_imports = true
+python_version = "3.11"
+warn_unused_ignores = true
+strict_equality = true
+scripts_are_modules = true
+warn_unused_configs = true
+show_error_codes = true
+
+[tool.pytest]
+ini_options.addopts = [
   "--cov=openapi_diagram",
   "--cov-report=term",
   "--cov-report=xml",
   "--cov-report=html",
   "--cov-config=pyproject.toml",
 ]
-env = [
+ini_options.env = [
   # prevent line wrapping in tests
   "TERMINAL_WIDTH=500",
   "_TYPER_FORCE_DISABLE_TERMINAL=1",
   "_TYPER_STANDARD_TRACEBACK=1",
 ]
 
-[tool.coverage.run]
-branch = true
-omit = [
-  'openapi_diagram/__init__.py',
-  'tests/*',
+[tool.coverage]
+run.omit = [
+  "openapi_diagram/__init__.py",
+  "tests/*",
   # comment the above line if you want to see if all tests did run
 ]
-
-[tool.coverage.report]
+run.branch = true
 # Regexes for lines to exclude from consideration
-exclude_lines = [
-  # Have to re-enable the standard pragma
-  'pragma: no cover',
-
+report.exclude_lines = [
   # Don't complain about missing debug-only code:
-  'def __repr__',
-  'if self\.debug',
-
-  # Don't complain if tests don't hit defensive assertion code:
-  'raise AssertionError',
-  'raise NotImplementedError',
-
+  "def __repr__",
+  "if __name__ == .__main__.:",
   # Don't complain if non-runnable code isn't run:
-  'if 0:',
-  'if __name__ == .__main__.:',
+  "if 0:",
+  "if self\\.debug",
   # only accessible during typechecking
-  'if TYPE_CHECKING:',
+  "if TYPE_CHECKING:",
+  # Have to re-enable the standard pragma
+  "pragma: no cover",
+  # Don't complain if tests don't hit defensive assertion code:
+  "raise AssertionError",
+  "raise NotImplementedError",
 ]
-
-[tool.mypy]
-exclude = "^docs/"
-ignore_missing_imports = true
-scripts_are_modules = true
-show_error_codes = true
-warn_unused_configs = true
-warn_unused_ignores = true
-strict_equality = true
-python_version = "3.11"
-
-# For now this is not used because pydoclint does not support toml when used with flake8
-
-[tool.interrogate]
-exclude = [ "docs", "tests" ]
-ignore-nested-functions = true
-ignore-init-module = true
-fail-under = 100
