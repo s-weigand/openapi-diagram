@@ -17,6 +17,6 @@ def test_command_line_interface():
     assert "openapi-diagram [OPTIONS] COMMAND [ARGS]..." in result.output
     help_result = runner.invoke(cli.app, ["--help"])
     assert help_result.exit_code == 0
-    assert re.search(
-        r"--help\s+Show this message and exit.", help_result.output
-    ), help_result.output
+    assert re.search(r"--help\s+Show this message and exit.", help_result.output), (
+        help_result.output
+    )
